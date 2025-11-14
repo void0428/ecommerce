@@ -20,7 +20,7 @@ python manage.py runserver
 ```bash
 cd frontend
 setup.bat
-npm start
+npm run dev
 ```
 
 ## Quick Setup (Linux/Mac)
@@ -40,7 +40,7 @@ python manage.py runserver
 cd frontend
 chmod +x setup.sh
 ./setup.sh
-npm start
+npm run dev
 ```
 
 ## Access the Application
@@ -68,6 +68,7 @@ npm start
 - Delete `node_modules` and run `npm install` again
 - Check that backend is running on port 8000
 - Clear browser cache if you see CORS errors
+- Vite uses port 3000 by default (configurable in `vite.config.js`)
 
 ### Database Issues
 - Delete `db.sqlite3` and run migrations again

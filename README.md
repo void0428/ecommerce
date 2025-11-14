@@ -22,6 +22,7 @@ A modern, full-stack e-commerce website for clothing built with React (JSX) and 
 
 ### Frontend
 - React 18.2.0
+- Vite (build tool)
 - React Router DOM
 - Axios for API calls
 - CSS3 for styling
@@ -38,13 +39,14 @@ ecommerce/
 │   ├── manage.py
 │   └── requirements.txt
 ├── frontend/
-│   ├── public/
 │   ├── src/
 │   │   ├── components/        # Reusable components
 │   │   ├── pages/             # Page components
 │   │   ├── services/          # API services
 │   │   ├── context/           # React context
-│   │   └── App.js
+│   │   └── App.jsx
+│   ├── index.html             # Vite entry HTML
+│   ├── vite.config.js         # Vite configuration
 │   └── package.json
 └── README.md
 ```
@@ -112,7 +114,7 @@ npm install
 
 3. Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
 The frontend will be available at `http://localhost:3000`
@@ -183,7 +185,7 @@ For production deployment:
 4. Use a production database (PostgreSQL recommended)
 5. Set up proper static file serving
 6. Configure environment variables for sensitive data
-7. Build React app: `npm run build`
+7. Build React app: `npm run build` (Vite will create optimized production build)
 8. Serve static files appropriately
 
 ## License
