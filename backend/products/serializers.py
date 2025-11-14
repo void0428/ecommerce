@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.utils.text import slugify
+from django.conf import settings
 from .models import Category, Product
 
 
@@ -14,6 +15,7 @@ class ProductSerializer(serializers.ModelSerializer):
     category_id = serializers.IntegerField(write_only=True, required=True)
     final_price = serializers.ReadOnlyField()
     discount_percentage = serializers.ReadOnlyField()
+    image = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = Product
@@ -24,6 +26,19 @@ class ProductSerializer(serializers.ModelSerializer):
             'created_at', 'updated_at'
         ]
         read_only_fields = ['slug', 'created_at', 'updated_at']
+
+    def to_representation(self, instance):
+        """Override to return full image URL"""
+        representation = super().to_representation(instance)
+        if representation.get('image'):
+            # Return the full URL path
+            request = self.context.get('request')
+            if request:
+                representation['image'] = request.build_absolute_uri(instance.image.url)
+            else:
+                # Fallback if no request context
+                representation['image'] = f"{settings.MEDIA_URL}{instance.image.name}"
+        return representation
 
     def validate_category_id(self, value):
         """Validate that the category exists"""
@@ -86,6 +101,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     final_price = serializers.ReadOnlyField()
     discount_percentage = serializers.ReadOnlyField()
+    image = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = Product
@@ -94,4 +110,17 @@ class ProductListSerializer(serializers.ModelSerializer):
             'final_price', 'discount_percentage', 'image', 'stock',
             'available_sizes', 'gender', 'is_featured'
         ]
+
+    def to_representation(self, instance):
+        """Override to return full image URL"""
+        representation = super().to_representation(instance)
+        if representation.get('image'):
+            # Return the full URL path
+            request = self.context.get('request')
+            if request:
+                representation['image'] = request.build_absolute_uri(instance.image.url)
+            else:
+                # Fallback if no request context
+                representation['image'] = f"{settings.MEDIA_URL}{instance.image.name}"
+        return representation
 

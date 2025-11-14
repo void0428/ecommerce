@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { productsAPI, cartAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { getImageUrl } from '../utils/imageUtils';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -61,9 +62,7 @@ const ProductDetail = () => {
     return <div className="error">Product not found</div>;
   }
 
-  const imageUrl = product.image 
-    ? `http://localhost:8000${product.image}` 
-    : 'https://via.placeholder.com/600x800?text=No+Image';
+  const imageUrl = getImageUrl(product.image);
 
   const sizes = product.available_sizes.split(',').map(s => s.trim());
 

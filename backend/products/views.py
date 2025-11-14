@@ -37,6 +37,12 @@ class ProductViewSet(viewsets.ModelViewSet):
             return ProductListSerializer
         return ProductSerializer
 
+    def get_serializer_context(self):
+        """Add request to serializer context for building absolute URLs"""
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
     @action(detail=False, methods=['get'])
     def featured(self, request):
         featured_products = self.queryset.filter(is_featured=True)

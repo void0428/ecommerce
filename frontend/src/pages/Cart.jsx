@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { cartAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { getImageUrl } from '../utils/imageUtils';
 import './Cart.css';
 
 const Cart = () => {
@@ -74,9 +75,7 @@ const Cart = () => {
         <div className="cart-layout">
           <div className="cart-items">
             {cart.items.map((item) => {
-              const imageUrl = item.product.image 
-                ? `http://localhost:8000${item.product.image}` 
-                : 'https://via.placeholder.com/150x200?text=No+Image';
+              const imageUrl = getImageUrl(item.product.image);
               
               return (
                 <div key={item.id} className="cart-item">

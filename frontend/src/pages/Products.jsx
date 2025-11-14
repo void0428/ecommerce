@@ -7,6 +7,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [filters, setFilters] = useState({
     category: '',
     gender: '',
@@ -21,12 +22,23 @@ const Products = () => {
   }, [filters, page]);
 
   const fetchCategories = async () => {
+    setCategoriesLoading(true);
     try {
       const response = await productsAPI.getCategories();
-      setCategories(response.data);
-      console.log('fetching Products Categories: ', productsAPI.getAll());
+      // Handle different response formats (pagination or direct array)
+      const categoriesData = response.data?.results || response.data || [];
+      // Ensure it's always an array
+      if (Array.isArray(categoriesData)) {
+        setCategories(categoriesData);
+      } else {
+        console.warn('Categories data is not an array:', categoriesData);
+        setCategories([]);
+      }
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]); // Set to empty array on error
+    } finally {
+      setCategoriesLoading(false);
     }
   };
 
@@ -71,13 +83,22 @@ const Products = () => {
               <select
                 value={filters.category}
                 onChange={(e) => handleFilterChange('category', e.target.value)}
+                disabled={categoriesLoading}
               >
                 <option value="">All Categories</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
-                ))}
+                {categoriesLoading ? (
+                  <option disabled>Loading categories...</option>
+                ) : (
+                  Array.isArray(categories) && categories.length > 0 ? (
+                    categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No categories available</option>
+                  )
+                )}
               </select>
             </div>
             <div className="filter-group">

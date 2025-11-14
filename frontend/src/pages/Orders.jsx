@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ordersAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { getImageUrl } from '../utils/imageUtils';
 import './Orders.css';
 
 const Orders = () => {
@@ -96,9 +97,7 @@ const Orders = () => {
                 </div>
                 <div className="order-items">
                   {order.items.map((item) => {
-                    const imageUrl = item.product.image 
-                      ? `http://localhost:8000${item.product.image}` 
-                      : 'https://via.placeholder.com/100x100?text=No+Image';
+                    const imageUrl = getImageUrl(item.product.image);
                     
                     return (
                       <div key={item.id} className="order-item">

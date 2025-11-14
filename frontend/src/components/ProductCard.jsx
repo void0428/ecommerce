@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../utils/imageUtils';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
-  const imageUrl = product.image 
-    ? `http://localhost:8000${product.image}` 
-    : 'https://via.placeholder.com/300x400?text=No+Image';
+  const imageUrl = getImageUrl(product.image);
 
   return (
     <div className="product-card">

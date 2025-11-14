@@ -145,3 +145,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+# Allow media files to be accessed
+CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security, but allow media access
+
