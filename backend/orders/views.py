@@ -13,10 +13,16 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
+        return Order.objects.filter(user=self.request.user).prefetch_related('items__product')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_serializer_context(self):
+        """Add request to serializer context for building absolute URLs"""
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
@@ -42,6 +48,18 @@ class CartViewSet(viewsets.ModelViewSet):
     def get_object(self):
         cart, created = Cart.objects.get_or_create(user=self.request.user)
         return cart
+
+    def list(self, request, *args, **kwargs):
+        """Override list to return single cart object instead of array"""
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, context={'request': request})
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        """Override retrieve to add request context"""
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, context={'request': request})
+        return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def add_item(self, request):
@@ -69,7 +87,7 @@ class CartViewSet(viewsets.ModelViewSet):
             cart_item.quantity += quantity
             cart_item.save()
 
-        serializer = CartSerializer(cart)
+        serializer = CartSerializer(cart, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
@@ -91,7 +109,7 @@ class CartViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = CartSerializer(cart)
+        serializer = CartSerializer(cart, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
@@ -108,7 +126,7 @@ class CartViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = CartSerializer(cart)
+        serializer = CartSerializer(cart, context={'request': request})
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])

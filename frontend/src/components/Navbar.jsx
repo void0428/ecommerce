@@ -1,29 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { cartAPI } from '../services/api';
+import { useCart } from '../context/CartContext';
 import './Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { cartCount } = useCart();
   const navigate = useNavigate();
-  const [cartCount, setCartCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  React.useEffect(() => {
-    if (user) {
-      fetchCartCount();
-    }
-  }, [user]);
-
-  const fetchCartCount = async () => {
-    try {
-      const response = await cartAPI.get();
-      setCartCount(response.data.total_items || 0);
-    } catch (error) {
-      console.error('Error fetching cart:', error);
-    }
-  };
 
   const handleLogout = async () => {
     const result = await logout();

@@ -22,9 +22,15 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       const response = await ordersAPI.getAll();
-      setOrders(response.data);
+      console.log('Orders API Response:', response.data); // Debug log
+      // Handle paginated response or direct array
+      const ordersData = response.data?.results || response.data || [];
+      // Ensure it's always an array
+      setOrders(Array.isArray(ordersData) ? ordersData : []);
     } catch (error) {
       console.error('Error fetching orders:', error);
+      console.error('Error details:', error.response?.data); // Debug log
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -71,7 +77,7 @@ const Orders = () => {
     <div className="orders-page">
       <div className="container">
         <h1 className="page-title">My Orders</h1>
-        {orders.length === 0 ? (
+        {!Array.isArray(orders) || orders.length === 0 ? (
           <div className="no-orders">
             <p>You have no orders yet</p>
           </div>
@@ -96,24 +102,24 @@ const Orders = () => {
                   </div>
                 </div>
                 <div className="order-items">
-                  {order.items.map((item) => {
-                    const imageUrl = getImageUrl(item.product.image);
+                  {Array.isArray(order.items) && order.items.map((item) => {
+                    const imageUrl = getImageUrl(item.product?.image);
                     
                     return (
                       <div key={item.id} className="order-item">
-                        <img src={imageUrl} alt={item.product.name} />
+                        <img src={imageUrl} alt={item.product?.name || 'Product'} />
                         <div className="order-item-info">
-                          <h4>{item.product.name}</h4>
+                          <h4>{item.product?.name || 'Product'}</h4>
                           <p>Size: {item.size} × {item.quantity}</p>
                         </div>
-                        <span className="order-item-price">${item.subtotal.toFixed(2)}</span>
+                        <span className="order-item-price">${Number(item.subtotal || 0).toFixed(2)}</span>
                       </div>
                     );
                   })}
                 </div>
                 <div className="order-footer">
                   <div className="order-total">
-                    <strong>Total: ${order.total_amount.toFixed(2)}</strong>
+                    <strong>Total: ${Number(order.total_amount || 0).toFixed(2)}</strong>
                   </div>
                   {order.status === 'P' && (
                     <button
@@ -125,8 +131,8 @@ const Orders = () => {
                   )}
                 </div>
                 <div className="order-shipping">
-                  <p><strong>Shipping Address:</strong> {order.shipping_address}</p>
-                  <p><strong>Phone:</strong> {order.phone_number}</p>
+                  <p><strong>Shipping Address:</strong> {order.shipping_address || 'N/A'}</p>
+                  <p><strong>Phone:</strong> {order.phone_number || 'N/A'}</p>
                 </div>
               </div>
             ))}

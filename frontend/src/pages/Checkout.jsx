@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cartAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import './Checkout.css';
 
 const Checkout = () => {
   const { user } = useAuth();
+  const { updateCartCount } = useCart();
   const navigate = useNavigate();
   const [cart, setCart] = useState(null);
   const [formData, setFormData] = useState({
@@ -26,9 +28,24 @@ const Checkout = () => {
   const fetchCart = async () => {
     try {
       const response = await cartAPI.get();
-      setCart(response.data);
+      console.log('Checkout cart response:', response.data); // Debug log
+      // Handle both array and object responses
+      let cartData = response.data;
+      if (Array.isArray(cartData) && cartData.length > 0) {
+        cartData = cartData[0];
+      }
+      // Ensure cart has items array
+      if (!cartData || !cartData.items) {
+        cartData = cartData || {};
+        cartData.items = [];
+      }
+      if (!Array.isArray(cartData.items)) {
+        cartData.items = [];
+      }
+      setCart(cartData);
     } catch (error) {
       console.error('Error fetching cart:', error);
+      setCart({ items: [], total_items: 0, total_amount: 0 });
     }
   };
 
@@ -43,15 +60,18 @@ const Checkout = () => {
 
     try {
       const response = await cartAPI.checkout(formData);
+      updateCartCount(); // Update cart count after checkout (should be 0)
       navigate(`/orders`);
     } catch (error) {
+      console.error('Checkout error:', error);
+      console.error('Error details:', error.response?.data);
       setError(error.response?.data?.error || 'Checkout failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (!cart || cart.items.length === 0) {
+  if (!cart || !cart.items || !Array.isArray(cart.items) || cart.items.length === 0) {
     return (
       <div className="checkout-page">
         <div className="container">
@@ -103,21 +123,21 @@ const Checkout = () => {
               {cart.items.map((item) => (
                 <div key={item.id} className="summary-item">
                   <div>
-                    <strong>{item.product.name}</strong>
+                    <strong>{item.product?.name || 'Product'}</strong>
                     <p>Size: {item.size} × {item.quantity}</p>
                   </div>
-                  <span>${item.subtotal.toFixed(2)}</span>
+                  <span>${Number(item.subtotal || 0).toFixed(2)}</span>
                 </div>
               ))}
             </div>
             <div className="summary-total">
               <div className="summary-row">
                 <span>Items:</span>
-                <span>{cart.total_items}</span>
+                <span>{cart.total_items || 0}</span>
               </div>
               <div className="summary-row total">
                 <span>Total:</span>
-                <span>${cart.total_amount.toFixed(2)}</span>
+                <span>${Number(cart.total_amount || 0).toFixed(2)}</span>
               </div>
             </div>
           </div>
