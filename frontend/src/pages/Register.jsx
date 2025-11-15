@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import './Login.css';
 
 const Register = () => {
   const { register } = useAuth();
@@ -38,51 +37,71 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <h1>Register</h1>
-        <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="error">{error}</div>}
-          <div className="form-group">
-            <label>Username</label>
+    <div className="pt-32 pb-20 min-h-screen bg-white flex items-center justify-center">
+      <div className="max-w-md w-full px-4">
+        <h1 className="font-serif-heading text-4xl text-[#1a1a2e] mb-8 text-center tracking-wider">
+          Register
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="p-4 bg-red-50 text-red-700 border border-red-200 text-sm font-sans-body">
+              {error}
+            </div>
+          )}
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Username
+            </label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
               required
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <div className="form-group">
-            <label>Email</label>
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Email
+            </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <div className="form-group">
-            <label>First Name</label>
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              First Name
+            </label>
             <input
               type="text"
               name="first_name"
               value={formData.first_name}
               onChange={handleChange}
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <div className="form-group">
-            <label>Last Name</label>
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Last Name
+            </label>
             <input
               type="text"
               name="last_name"
               value={formData.last_name}
               onChange={handleChange}
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <div className="form-group">
-            <label>Password</label>
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Password
+            </label>
             <input
               type="password"
               name="password"
@@ -90,10 +109,13 @@ const Register = () => {
               onChange={handleChange}
               required
               minLength="8"
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <div className="form-group">
-            <label>Confirm Password</label>
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Confirm Password
+            </label>
             <input
               type="password"
               name="password_confirm"
@@ -101,14 +123,21 @@ const Register = () => {
               onChange={handleChange}
               required
               minLength="8"
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="w-full border border-[#1a1a2e] text-[#1a1a2e] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors"
+          >
             Register
           </button>
         </form>
-        <p className="auth-link">
-          Already have an account? <Link to="/login">Login here</Link>
+        <p className="text-center mt-6 text-sm text-gray-600 font-sans-body">
+          Already have an account?{' '}
+          <Link to="/login" className="underline hover:text-[#1a1a2e]">
+            Login here
+          </Link>
         </p>
       </div>
     </div>
@@ -116,4 +145,3 @@ const Register = () => {
 };
 
 export default Register;
-

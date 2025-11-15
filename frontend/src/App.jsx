@@ -11,16 +11,15 @@ import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Orders from './pages/Orders';
-import './App.css';
 
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="App">
+          <div className="min-h-screen bg-white">
             <Navbar />
-            <main className="main-content">
+            <main>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<Products />} />
@@ -40,4 +39,3 @@ function App() {
 }
 
 export default App;
-

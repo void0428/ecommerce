@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { ordersAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { getImageUrl } from '../utils/imageUtils';
-import './Orders.css';
 
 const Orders = () => {
   const { user } = useAuth();
@@ -22,14 +21,12 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       const response = await ordersAPI.getAll();
-      console.log('Orders API Response:', response.data); // Debug log
-      // Handle paginated response or direct array
+      console.log('Orders API Response:', response.data);
       const ordersData = response.data?.results || response.data || [];
-      // Ensure it's always an array
       setOrders(Array.isArray(ordersData) ? ordersData : []);
     } catch (error) {
       console.error('Error fetching orders:', error);
-      console.error('Error details:', error.response?.data); // Debug log
+      console.error('Error details:', error.response?.data);
       setOrders([]);
     } finally {
       setLoading(false);
@@ -70,69 +67,95 @@ const Orders = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="pt-32 pb-20 text-center">
+        <p className="text-gray-600 font-sans-body">Loading...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="orders-page">
-      <div className="container">
-        <h1 className="page-title">My Orders</h1>
+    <div className="pt-32 pb-20 min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+          My Orders
+        </h1>
         {!Array.isArray(orders) || orders.length === 0 ? (
-          <div className="no-orders">
-            <p>You have no orders yet</p>
+          <div className="text-center py-20">
+            <p className="text-gray-600 font-sans-body">You have no orders yet</p>
           </div>
         ) : (
-          <div className="orders-list">
+          <div className="space-y-8">
             {orders.map((order) => (
-              <div key={order.id} className="order-card">
-                <div className="order-header">
+              <div key={order.id} className="border border-gray-200 p-6">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
                   <div>
-                    <h3>Order #{order.id}</h3>
-                    <p className="order-date">
+                    <h3 className="font-serif-heading text-2xl text-[#1a1a2e] mb-2 tracking-wider">
+                      Order #{order.id}
+                    </h3>
+                    <p className="text-sm text-gray-600 font-sans-body">
                       {new Date(order.created_at).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="order-status">
+                  <div className="mt-4 md:mt-0">
                     <span
-                      className="status-badge"
+                      className="inline-block px-4 py-2 text-xs font-semibold text-white uppercase tracking-wider"
                       style={{ backgroundColor: getStatusColor(order.status) }}
                     >
                       {getStatusText(order.status)}
                     </span>
                   </div>
                 </div>
-                <div className="order-items">
+                <div className="space-y-4 mb-6">
                   {Array.isArray(order.items) && order.items.map((item) => {
                     const imageUrl = getImageUrl(item.product?.image);
                     
                     return (
-                      <div key={item.id} className="order-item">
-                        <img src={imageUrl} alt={item.product?.name || 'Product'} />
-                        <div className="order-item-info">
-                          <h4>{item.product?.name || 'Product'}</h4>
-                          <p>Size: {item.size} × {item.quantity}</p>
+                      <div key={item.id} className="flex gap-4 items-center">
+                        <div className="w-20 h-24 bg-gray-50 overflow-hidden flex-shrink-0">
+                          <img 
+                            src={imageUrl} 
+                            alt={item.product?.name || 'Product'}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                        <span className="order-item-price">${Number(item.subtotal || 0).toFixed(2)}</span>
+                        <div className="flex-1">
+                          <h4 className="text-sm text-[#1a1a2e] font-sans-body uppercase tracking-wider mb-1">
+                            {item.product?.name || 'Product'}
+                          </h4>
+                          <p className="text-xs text-gray-600 font-sans-body">
+                            Size: {item.size} × {item.quantity}
+                          </p>
+                        </div>
+                        <span className="text-sm text-[#1a1a2e] font-sans-body">
+                          ${Number(item.subtotal || 0).toFixed(2)}
+                        </span>
                       </div>
                     );
                   })}
                 </div>
-                <div className="order-footer">
-                  <div className="order-total">
-                    <strong>Total: ${Number(order.total_amount || 0).toFixed(2)}</strong>
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 pt-6 border-t border-gray-200">
+                  <div className="text-lg font-sans-body">
+                    <strong className="text-[#1a1a2e]">
+                      Total: ${Number(order.total_amount || 0).toFixed(2)}
+                    </strong>
                   </div>
                   {order.status === 'P' && (
                     <button
-                      className="btn btn-danger"
                       onClick={() => handleCancel(order.id)}
+                      className="border border-red-600 text-red-600 px-6 py-2 text-sm uppercase tracking-wider font-sans-body hover:bg-red-600 hover:text-white transition-colors"
                     >
                       Cancel Order
                     </button>
                   )}
                 </div>
-                <div className="order-shipping">
-                  <p><strong>Shipping Address:</strong> {order.shipping_address || 'N/A'}</p>
-                  <p><strong>Phone:</strong> {order.phone_number || 'N/A'}</p>
+                <div className="mt-6 pt-6 border-t border-gray-200 space-y-2">
+                  <p className="text-sm text-gray-600 font-sans-body">
+                    <strong>Shipping Address:</strong> {order.shipping_address || 'N/A'}
+                  </p>
+                  <p className="text-sm text-gray-600 font-sans-body">
+                    <strong>Phone:</strong> {order.phone_number || 'N/A'}
+                  </p>
                 </div>
               </div>
             ))}
@@ -144,4 +167,3 @@ const Orders = () => {
 };
 
 export default Orders;
-

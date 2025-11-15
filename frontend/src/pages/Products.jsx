@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
-import './Products.css';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -25,9 +24,7 @@ const Products = () => {
     setCategoriesLoading(true);
     try {
       const response = await productsAPI.getCategories();
-      // Handle different response formats (pagination or direct array)
       const categoriesData = response.data?.results || response.data || [];
-      // Ensure it's always an array
       if (Array.isArray(categoriesData)) {
         setCategories(categoriesData);
       } else {
@@ -36,7 +33,7 @@ const Products = () => {
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
-      setCategories([]); // Set to empty array on error
+      setCategories([]);
     } finally {
       setCategoriesLoading(false);
     }
@@ -68,77 +65,94 @@ const Products = () => {
   };
 
   if (loading && products.length === 0) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="pt-32 pb-20 text-center">
+        <p className="text-gray-600 font-sans-body">Loading...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="products-page">
-      <div className="container">
-        <h1 className="page-title">All Products</h1>
-        <div className="products-layout">
-          <aside className="filters">
-            <h3>Filters</h3>
-            <div className="filter-group">
-              <label>Category</label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
-                disabled={categoriesLoading}
-              >
-                <option value="">All Categories</option>
-                {categoriesLoading ? (
-                  <option disabled>Loading categories...</option>
-                ) : (
-                  Array.isArray(categories) && categories.length > 0 ? (
-                    categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </option>
-                    ))
+    <div className="pt-32 pb-20 min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+          All Products
+        </h1>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filters Sidebar */}
+          <aside className="lg:w-64 flex-shrink-0">
+            <h3 className="font-serif-heading text-xl text-[#1a1a2e] mb-6 tracking-wider">Filters</h3>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm text-gray-700 mb-2 font-sans-body">Category</label>
+                <select
+                  value={filters.category}
+                  onChange={(e) => handleFilterChange('category', e.target.value)}
+                  disabled={categoriesLoading}
+                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                >
+                  <option value="">All Categories</option>
+                  {categoriesLoading ? (
+                    <option disabled>Loading categories...</option>
                   ) : (
-                    <option disabled>No categories available</option>
-                  )
-                )}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label>Gender</label>
-              <select
-                value={filters.gender}
-                onChange={(e) => handleFilterChange('gender', e.target.value)}
-              >
-                <option value="">All</option>
-                <option value="M">Men</option>
-                <option value="W">Women</option>
-                <option value="U">Unisex</option>
-              </select>
-            </div>
-            <div className="filter-group">
-              <label>Sort By</label>
-              <select
-                value={filters.ordering}
-                onChange={(e) => handleFilterChange('ordering', e.target.value)}
-              >
-                <option value="-created_at">Newest</option>
-                <option value="price">Price: Low to High</option>
-                <option value="-price">Price: High to Low</option>
-                <option value="name">Name: A to Z</option>
-              </select>
+                    Array.isArray(categories) && categories.length > 0 ? (
+                      categories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>No categories available</option>
+                    )
+                  )}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2 font-sans-body">Gender</label>
+                <select
+                  value={filters.gender}
+                  onChange={(e) => handleFilterChange('gender', e.target.value)}
+                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                >
+                  <option value="">All</option>
+                  <option value="M">Men</option>
+                  <option value="W">Women</option>
+                  <option value="U">Unisex</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2 font-sans-body">Sort By</label>
+                <select
+                  value={filters.ordering}
+                  onChange={(e) => handleFilterChange('ordering', e.target.value)}
+                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                >
+                  <option value="-created_at">Newest</option>
+                  <option value="price">Price: Low to High</option>
+                  <option value="-price">Price: High to Low</option>
+                  <option value="name">Name: A to Z</option>
+                </select>
+              </div>
             </div>
           </aside>
-          <div className="products-content">
-            <div className="search-bar">
+
+          {/* Products Grid */}
+          <div className="flex-1">
+            <div className="mb-8">
               <input
                 type="text"
                 placeholder="Search products..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
+                className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
               />
             </div>
             {products.length === 0 ? (
-              <div className="no-products">No products found</div>
+              <div className="text-center py-20">
+                <p className="text-gray-600 font-sans-body">No products found</p>
+              </div>
             ) : (
-              <div className="products-grid">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -152,4 +166,3 @@ const Products = () => {
 };
 
 export default Products;
-

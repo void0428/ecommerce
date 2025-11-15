@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import './Login.css';
 
 const Login = () => {
   const { login } = useAuth();
@@ -28,37 +27,55 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-container">
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="error">{error}</div>}
-          <div className="form-group">
-            <label>Username</label>
+    <div className="pt-32 pb-20 min-h-screen bg-white flex items-center justify-center">
+      <div className="max-w-md w-full px-4">
+        <h1 className="font-serif-heading text-4xl text-[#1a1a2e] mb-8 text-center tracking-wider">
+          Login
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="p-4 bg-red-50 text-red-700 border border-red-200 text-sm font-sans-body">
+              {error}
+            </div>
+          )}
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Username
+            </label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
               required
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <div className="form-group">
-            <label>Password</label>
+          <div>
+            <label className="block text-sm text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Password
+            </label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               required
+              className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="w-full border border-[#1a1a2e] text-[#1a1a2e] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors"
+          >
             Login
           </button>
         </form>
-        <p className="auth-link">
-          Don't have an account? <Link to="/register">Register here</Link>
+        <p className="text-center mt-6 text-sm text-gray-600 font-sans-body">
+          Don't have an account?{' '}
+          <Link to="/register" className="underline hover:text-[#1a1a2e]">
+            Register here
+          </Link>
         </p>
       </div>
     </div>
@@ -66,4 +83,3 @@ const Login = () => {
 };
 
 export default Login;
-
