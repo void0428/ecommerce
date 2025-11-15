@@ -134,9 +134,9 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
       gender: 'M',
     },
     {
-      name: 'Kids',
+      name: 'Unisex',
       type: 'gender',
-      gender: 'K', // Kids gender from the model
+      gender: 'U', // Kids gender from the model
     },
   ];
 
