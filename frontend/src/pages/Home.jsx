@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import Hero from '../components/Hero';
+import Footer from '../components/Footer';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -76,10 +77,10 @@ const Home = () => {
 
       {/* On Sale Products */}
       {onSaleProducts.length > 0 && (
-        <section className="py-20 bg-gray-50">
+        <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#2b3349] mb-12 text-center tracking-wider">
-              On Sale
+            <h2 className="font-serif-heading italic text-3xl md:text-4xl text-[#2b3349] mb-12 text-center tracking-wider">
+            SKI & SUN SELECTION
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
               {onSaleProducts.slice(0, 8).map((product) => (
@@ -91,7 +92,7 @@ const Home = () => {
       )}
 
       {/* Newsletter Section */}
-      <section className="py-20 bg-white border-t border-gray-200">
+      <section className="py-20 bg-white border-t border-[#efebe3]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif-heading text-3xl text-[#2b3349] mb-4 tracking-wider italic">
             Newsletter
@@ -113,6 +114,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      
+      <Footer/>
     </div>
   );
 };

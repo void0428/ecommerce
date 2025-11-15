@@ -3,6 +3,7 @@
 @layer base {
   * {
     @apply box-border;
+    font-style: italic;
   }
 
   body {
