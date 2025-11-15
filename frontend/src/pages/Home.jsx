@@ -36,7 +36,7 @@ const Home = () => {
   }
 
   return (
-    <div className="pt-32">
+    <div className="pt-32 ">
       {/* Hero Section */}
       <section className="relative bg-[url('/hero_image.jpeg')] bg-cover bg-center py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

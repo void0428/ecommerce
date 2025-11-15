@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
@@ -13,12 +13,14 @@ import Register from './pages/Register';
 import Orders from './pages/Orders';
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
           <div className="min-h-screen bg-white">
-            <Navbar />
+            <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
             <main>
               <Routes>
                 <Route path="/" element={<Home />} />
