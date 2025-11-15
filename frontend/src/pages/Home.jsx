@@ -60,12 +60,12 @@ const Home = () => {
 
       {/* Featured Products */}
       {featuredProducts.length > 0 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+        <section className="py-10 bg-white">
+          <div className="mx-auto sm:px-6 lg:px-8">
+            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#2b3349] mb-12 text-start tracking-wider">
               Featured Products
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
               {featuredProducts.slice(0, 8).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -78,10 +78,10 @@ const Home = () => {
       {onSaleProducts.length > 0 && (
         <section className="py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#2b3349] mb-12 text-center tracking-wider">
               On Sale
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
               {onSaleProducts.slice(0, 8).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -93,19 +93,19 @@ const Home = () => {
       {/* Newsletter Section */}
       <section className="py-20 bg-white border-t border-gray-200">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-serif-heading text-3xl text-[#1a1a2e] mb-4 tracking-wider italic">
+          <h2 className="font-serif-heading text-3xl text-[#2b3349] mb-4 tracking-wider italic">
             Newsletter
           </h2>
-          <p className="text-gray-600 mb-8 font-sans-body">
+          <p className="text-[#2b3349]/70 mb-8 font-sans-body">
             Be the first to know about our latest news and promotions.
           </p>
           <div className="flex items-center justify-center gap-2 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+              className="flex-1 border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
             />
-            <button className="text-[#1a1a2e] hover:text-gray-600 transition-colors">
+            <button className="text-[#2b3349] hover:text-[#2b3349]/70 transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
               </svg>

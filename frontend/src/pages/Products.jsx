@@ -102,21 +102,21 @@ const Products = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#2b3349] mb-12 text-center tracking-wider">
           All Products
         </h1>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <aside className="lg:w-64 flex-shrink-0">
-            <h3 className="font-serif-heading text-xl text-[#1a1a2e] mb-6 tracking-wider">Filters</h3>
+            <h3 className="font-serif-heading text-xl text-[#2b3349] mb-6 tracking-wider">Filters</h3>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm text-gray-700 mb-2 font-sans-body">Category</label>
+                <label className="block text-sm text-[#2b3349] mb-2 font-sans-body">Category</label>
                 <select
                   value={filters.category}
                   onChange={(e) => handleFilterChange('category', e.target.value)}
                   disabled={categoriesLoading}
-                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 >
                   <option value="">All Categories</option>
                   {categoriesLoading ? (
@@ -135,11 +135,11 @@ const Products = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-gray-700 mb-2 font-sans-body">Gender</label>
+                <label className="block text-sm text-[#2b3349] mb-2 font-sans-body">Gender</label>
                 <select
                   value={filters.gender}
                   onChange={(e) => handleFilterChange('gender', e.target.value)}
-                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 >
                   <option value="">All</option>
                   <option value="M">Men</option>
@@ -148,11 +148,11 @@ const Products = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-gray-700 mb-2 font-sans-body">Sort By</label>
+                <label className="block text-sm text-[#2b3349] mb-2 font-sans-body">Sort By</label>
                 <select
                   value={filters.ordering}
                   onChange={(e) => handleFilterChange('ordering', e.target.value)}
-                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 >
                   <option value="-created_at">Newest</option>
                   <option value="price">Price: Low to High</option>
@@ -171,15 +171,15 @@ const Products = () => {
                 placeholder="Search products..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
-                className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
               />
             </div>
             {products.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-gray-600 font-sans-body">No products found</p>
+                <p className="text-[#2b3349]/70 font-sans-body">No products found</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

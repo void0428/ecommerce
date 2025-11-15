@@ -15,9 +15,23 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [genderCategoriesLoading, setGenderCategoriesLoading] = useState({});
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [changeNavColor, setChangeNavColor] = useState(false);
 
   useEffect(() => {
     fetchCategories();
+  }, []);
+
+  const changeBackground = () => {
+    if (window.scrollY > 500) {  // hero height or offset
+      setChangeNavColor(true);
+    } else {
+      setChangeNavColor(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeBackground);
+    return () => window.removeEventListener("scroll", changeBackground);
   }, []);
 
   const fetchCategories = async () => {
@@ -131,7 +145,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     onMouseLeave={() => setActiveDropdown(null)}
     >
 
-      <div className="text-black bg-transparent">
+      <div className={`${changeNavColor ? 'text-[#2b3349] bg-white' : 'text-white bg-transparent'} hover:bg-white hover:text-[#2b3349]`}>
         <div className="flex items-center justify-between p-3">
 
           <div>
@@ -156,7 +170,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                   <button title='Cart' className="p-2 hover:border-b rounded-md transition-colors relative">
                       <ShoppingBag size={20} />
                       {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 text-[#2b3349] text-xs rounded-full w-5 h-5 flex items-center justify-center">
                           {cartCount}
                         </span>
                       )}
@@ -222,7 +236,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                 {item.name}
               </button>
               {activeDropdown === index && (
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 text-white bg-black/80 shadow-lg border border-gray-100 rounded-md overflow-hidden">
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 text-[#2b3349] bg-black/80 shadow-lg border border-gray-100 rounded-md overflow-hidden">
                   {item.type === 'categories' ? (
                     // PERSONALIZATION - Show all categories
                     <>
@@ -299,7 +313,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                   }
                 }}
               >
-                <h3 className="text-sm font-medium tracking-wider mb-2 text-black">{item.name}</h3>
+                <h3 className="text-sm font-medium tracking-wider mb-2 text-[#2b3349]">{item.name}</h3>
                 <div className="pl-4 space-y-2">
                   {item.type === 'categories' ? (
                     // PERSONALIZATION - Show all categories
@@ -401,7 +415,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     //               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
     //             </svg>
     //             {cartCount > 0 && (
-    //               <span className="absolute -top-2 -right-2 bg-[#1a1a2e] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+    //               <span className="absolute -top-2 -right-2 bg-[#1a1a2e] text-[#2b3349] text-xs rounded-full w-5 h-5 flex items-center justify-center">
     //                 {cartCount}
     //               </span>
     //             )}

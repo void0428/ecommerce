@@ -83,14 +83,14 @@ const Checkout = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#2b3349] mb-12 text-center tracking-wider">
           Checkout
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Checkout Form */}
           <div>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <h2 className="font-serif-heading text-2xl text-[#1a1a2e] mb-6 tracking-wider">
+              <h2 className="font-serif-heading text-2xl text-[#2b3349] mb-6 tracking-wider">
                 Shipping Information
               </h2>
               <div>
@@ -104,7 +104,7 @@ const Checkout = () => {
                   required
                   rows="4"
                   placeholder="Enter your complete shipping address"
-                  className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent resize-none"
+                  className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent resize-none"
                 />
               </div>
               <div>
@@ -118,7 +118,7 @@ const Checkout = () => {
                   onChange={handleChange}
                   required
                   placeholder="Enter your phone number"
-                  className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#1a1a2e] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 />
               </div>
               {error && (
@@ -129,7 +129,7 @@ const Checkout = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full border border-[#1a1a2e] text-[#1a1a2e] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full border border-[#2b3349] text-[#2b3349] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Processing...' : 'Place Order'}
               </button>
@@ -139,21 +139,21 @@ const Checkout = () => {
           {/* Order Summary */}
           <div>
             <div className="border border-gray-200 p-6 sticky top-32">
-              <h2 className="font-serif-heading text-2xl text-[#1a1a2e] mb-6 tracking-wider">
+              <h2 className="font-serif-heading text-2xl text-[#2b3349] mb-6 tracking-wider">
                 Order Summary
               </h2>
               <div className="space-y-4 mb-6">
                 {cart.items.map((item) => (
                   <div key={item.id} className="flex justify-between items-start pb-4 border-b border-gray-200">
                     <div className="flex-1">
-                      <strong className="text-sm text-[#1a1a2e] font-sans-body block mb-1">
+                      <strong className="text-sm text-[#2b3349] font-sans-body block mb-1">
                         {item.product?.name || 'Product'}
                       </strong>
                       <p className="text-xs text-gray-600 font-sans-body">
                         Size: {item.size} × {item.quantity}
                       </p>
                     </div>
-                    <span className="text-sm text-[#1a1a2e] font-sans-body">
+                    <span className="text-sm text-[#2b3349] font-sans-body">
                       ${Number(item.subtotal || 0).toFixed(2)}
                     </span>
                   </div>
@@ -162,11 +162,11 @@ const Checkout = () => {
               <div className="space-y-4">
                 <div className="flex justify-between text-sm font-sans-body">
                   <span className="text-gray-600">Items:</span>
-                  <span className="text-[#1a1a2e]">{cart.total_items || 0}</span>
+                  <span className="text-[#2b3349]">{cart.total_items || 0}</span>
                 </div>
                 <div className="flex justify-between text-lg font-sans-body border-t border-gray-200 pt-4">
-                  <span className="text-[#1a1a2e] font-semibold">Total:</span>
-                  <span className="text-[#1a1a2e] font-semibold">
+                  <span className="text-[#2b3349] font-semibold">Total:</span>
+                  <span className="text-[#2b3349] font-semibold">
                     ${Number(cart.total_amount || 0).toFixed(2)}
                   </span>
                 </div>

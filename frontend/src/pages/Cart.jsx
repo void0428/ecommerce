@@ -76,7 +76,7 @@ const Cart = () => {
   if (loading) {
     return (
       <div className="pt-32 pb-20 text-center">
-        <p className="text-gray-600 font-sans-body">Loading...</p>
+        <p className="text-[#2b3349]/70 font-sans-body">Loading...</p>
       </div>
     );
   }
@@ -85,14 +85,14 @@ const Cart = () => {
     return (
       <div className="pt-32 pb-20 min-h-screen bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-serif-heading text-4xl md:text-5xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+          <h1 className="font-serif-heading text-4xl md:text-5xl text-[#2b3349] mb-12 text-center tracking-wider">
             Shopping Cart
           </h1>
           <div className="text-center py-20">
-            <p className="text-gray-600 mb-8 font-sans-body">Your cart is empty</p>
+            <p className="text-[#2b3349]/70 mb-8 font-sans-body">Your cart is empty</p>
             <Link 
               to="/products" 
-              className="inline-block border border-[#1a1a2e] text-[#1a1a2e] px-8 py-3 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors"
+              className="inline-block border border-[#2b3349] text-[#2b3349] px-8 py-3 text-sm uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors"
             >
               Continue Shopping
             </Link>
@@ -105,7 +105,7 @@ const Cart = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#1a1a2e] mb-12 text-center tracking-wider">
+        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#2b3349] mb-12 text-center tracking-wider">
           Shopping Cart
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -125,11 +125,11 @@ const Cart = () => {
                   </div>
                   <div className="flex-1 flex flex-col md:flex-row md:justify-between gap-4">
                     <div className="flex-1">
-                      <h3 className="text-lg text-[#1a1a2e] mb-2 font-sans-body uppercase tracking-wider">
+                      <h3 className="text-lg text-[#2b3349] mb-2 font-sans-body uppercase tracking-wider">
                         {item.product?.name || 'Product'}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-2 font-sans-body">Size: {item.size}</p>
-                      <p className="text-lg text-[#1a1a2e] font-sans-body">
+                      <p className="text-sm text-[#2b3349]/70 mb-2 font-sans-body">Size: {item.size}</p>
+                      <p className="text-lg text-[#2b3349] font-sans-body">
                         ${Number(item.subtotal || 0).toFixed(2)}
                       </p>
                     </div>
@@ -137,21 +137,21 @@ const Cart = () => {
                       <div className="flex items-center gap-4">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#1a1a2e] transition-colors"
+                          className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#2b3349] transition-colors"
                         >
                           <span className="text-lg">-</span>
                         </button>
                         <span className="text-lg font-sans-body w-12 text-center">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#1a1a2e] transition-colors"
+                          className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#2b3349] transition-colors"
                         >
                           <span className="text-lg">+</span>
                         </button>
                       </div>
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="text-sm text-gray-600 hover:text-red-600 font-sans-body uppercase tracking-wider underline"
+                        className="text-sm text-[#2b3349]/70 hover:text-red-600 font-sans-body uppercase tracking-wider underline"
                       >
                         Remove
                       </button>
@@ -165,24 +165,24 @@ const Cart = () => {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="border border-gray-200 p-6 sticky top-32">
-              <h2 className="font-serif-heading text-2xl text-[#1a1a2e] mb-6 tracking-wider">
+              <h2 className="font-serif-heading text-2xl text-[#2b3349] mb-6 tracking-wider">
                 Order Summary
               </h2>
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm font-sans-body">
-                  <span className="text-gray-600">Items:</span>
-                  <span className="text-[#1a1a2e]">{cart.total_items || 0}</span>
+                  <span className="text-[#2b3349]/70">Items:</span>
+                  <span className="text-[#2b3349]">{cart.total_items || 0}</span>
                 </div>
                 <div className="flex justify-between text-lg font-sans-body border-t border-gray-200 pt-4">
-                  <span className="text-[#1a1a2e] font-semibold">Total:</span>
-                  <span className="text-[#1a1a2e] font-semibold">
+                  <span className="text-[#2b3349] font-semibold">Total:</span>
+                  <span className="text-[#2b3349] font-semibold">
                     ${Number(cart.total_amount || 0).toFixed(2)}
                   </span>
                 </div>
               </div>
               <Link
                 to="/checkout"
-                className="block w-full border border-[#1a1a2e] text-[#1a1a2e] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors text-center"
+                className="block w-full border border-[#2b3349] text-[#2b3349] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors text-center"
               >
                 Proceed to Checkout
               </Link>

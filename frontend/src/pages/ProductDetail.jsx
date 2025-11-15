@@ -63,7 +63,7 @@ const ProductDetail = () => {
   if (loading) {
     return (
       <div className="pt-32 pb-20 text-center">
-        <p className="text-gray-600 font-sans-body">Loading...</p>
+        <p className="text-[#2b3349]/600 font-sans-body">Loading...</p>
       </div>
     );
   }
@@ -94,40 +94,40 @@ const ProductDetail = () => {
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <h1 className="font-serif-heading text-3xl md:text-4xl text-[#1a1a2e] mb-4 tracking-wider">
+            <h1 className="font-serif-heading text-3xl md:text-4xl text-[#2b3349] mb-4 tracking-wider">
               {product.name}
             </h1>
-            <p className="text-sm text-gray-500 mb-6 font-sans-body uppercase tracking-wider">
+            <p className="text-sm text-[#2b3349]/70 mb-6 font-sans-body uppercase tracking-wider">
               {product.category?.name}
             </p>
             
             <div className="flex items-center gap-4 mb-6">
               {product.discount_price ? (
                 <>
-                  <span className="text-lg text-gray-400 line-through font-sans-body">
+                  <span className="text-lg text-[#2b3349]/400 line-through font-sans-body">
                     ${product.price}
                   </span>
-                  <span className="text-2xl text-[#1a1a2e] font-sans-body">
+                  <span className="text-2xl text-[#2b3349] font-sans-body">
                     ${product.final_price}
                   </span>
-                  <span className="bg-[#1a1a2e] text-white px-3 py-1 text-xs font-semibold tracking-wider">
+                  <span className="bg-[#2b3349] text-white px-3 py-1 text-xs font-semibold tracking-wider">
                     -{product.discount_percentage}%
                   </span>
                 </>
               ) : (
-                <span className="text-2xl text-[#1a1a2e] font-sans-body">
+                <span className="text-2xl text-[#2b3349] font-sans-body">
                   ${product.final_price}
                 </span>
               )}
             </div>
 
-            <p className="text-gray-600 mb-8 font-sans-body leading-relaxed">
+            <p className="text-[#2b3349]/600 mb-8 font-sans-body leading-relaxed">
               {product.description}
             </p>
 
             {/* Size Selection */}
             <div className="mb-6">
-              <label className="block text-sm text-gray-700 mb-3 font-sans-body uppercase tracking-wider">
+              <label className="block text-sm text-[#2b3349] mb-3 font-sans-body uppercase tracking-wider">
                 Size
               </label>
               <div className="flex flex-wrap gap-3">
@@ -137,8 +137,8 @@ const ProductDetail = () => {
                     onClick={() => setSelectedSize(size)}
                     className={`px-6 py-2 border text-sm font-sans-body uppercase tracking-wider transition-colors ${
                       selectedSize === size
-                        ? 'border-[#1a1a2e] bg-[#1a1a2e] text-white'
-                        : 'border-gray-300 text-[#1a1a2e] hover:border-[#1a1a2e]'
+                        ? 'border-[#2b3349] bg-[#2b3349] text-white'
+                        : 'border-gray-300 text-[#2b3349] hover:border-[#2b3349]'
                     }`}
                   >
                     {size}
@@ -149,20 +149,20 @@ const ProductDetail = () => {
 
             {/* Quantity Selection */}
             <div className="mb-8">
-              <label className="block text-sm text-gray-700 mb-3 font-sans-body uppercase tracking-wider">
+              <label className="block text-sm text-[#2b3349] mb-3 font-sans-body uppercase tracking-wider">
                 Quantity
               </label>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#1a1a2e] transition-colors"
+                  className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#2b3349] transition-colors"
                 >
                   <span className="text-lg">-</span>
                 </button>
                 <span className="text-lg font-sans-body w-12 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#1a1a2e] transition-colors"
+                  className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#2b3349] transition-colors"
                 >
                   <span className="text-lg">+</span>
                 </button>
@@ -183,21 +183,21 @@ const ProductDetail = () => {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              className="w-full border border-[#1a1a2e] text-[#1a1a2e] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors mb-8"
+              className="w-full border border-[#2b3349] text-[#2b3349] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors mb-8"
             >
               Add to Cart
             </button>
 
             {/* Product Meta */}
             <div className="border-t border-gray-200 pt-6 space-y-2">
-              <p className="text-sm text-gray-600 font-sans-body">
+              <p className="text-sm text-[#2b3349]/600 font-sans-body">
                 <strong>Gender:</strong> {
                   product.gender === 'M' ? 'Men' : 
                   product.gender === 'W' ? 'Women' : 
                   'Unisex'
                 }
               </p>
-              <p className="text-sm text-gray-600 font-sans-body">
+              <p className="text-sm text-[#2b3349]/600 font-sans-body">
                 <strong>Stock:</strong> {product.stock} available
               </p>
             </div>
