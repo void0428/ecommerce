@@ -144,7 +144,7 @@ const Products = () => {
                   <option value="">All</option>
                   <option value="M">Men</option>
                   <option value="W">Women</option>
-                  <option value="K">Kids</option>
+                  <option value="U">Unisex</option>
                 </select>
               </div>
               <div>

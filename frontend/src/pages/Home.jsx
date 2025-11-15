@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import HorizontalCarousel from '../components/HorizontalCarousel';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [onSaleProducts, setOnSaleProducts] = useState([]);
+  const [womenProducts, setWomenProducts] = useState([]);
+  const [menProducts, setMenProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,14 +18,24 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const [featured, onSale] = await Promise.all([
+      const [featuredRes, womenRes, menRes] = await Promise.all([
         productsAPI.getFeatured(),
-        productsAPI.getOnSale(),
+        productsAPI.getAll({ gender: 'W', page: 1 }),
+        productsAPI.getAll({ gender: 'M', page: 1 }),
       ]);
-      setFeaturedProducts(featured.data);
-      setOnSaleProducts(onSale.data);
+
+      const featured = featuredRes.data || [];
+      const women = (womenRes.data.results || womenRes.data) || [];
+      const men = (menRes.data.results || menRes.data) || [];
+
+      setFeaturedProducts(Array.isArray(featured) ? featured : []);
+      setWomenProducts(Array.isArray(women) ? women : []);
+      setMenProducts(Array.isArray(men) ? men : []);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setFeaturedProducts([]);
+      setWomenProducts([]);
+      setMenProducts([]);
     } finally {
       setLoading(false);
     }
@@ -59,37 +71,29 @@ const Home = () => {
       </section> */}
 
 
-      {/* Featured Products */}
-      {featuredProducts.length > 0 && (
-        <section className="py-10 bg-white">
-          <div className="mx-auto sm:px-6 lg:px-8">
-            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#2b3349] mb-12 text-start tracking-wider">
-              Featured Products
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
-              {featuredProducts.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Featured Products - full width horizontal carousel */}
+      <HorizontalCarousel
+        title="Featured"
+        products={featuredProducts.slice(0, 12)}
+        direction="right"
+        speed={36}
+      />
 
-      {/* On Sale Products */}
-      {onSaleProducts.length > 0 && (
-        <section className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="font-serif-heading italic text-3xl md:text-4xl text-[#2b3349] mb-12 text-center tracking-wider">
-            SKI & SUN SELECTION
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
-              {onSaleProducts.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Women Collection - horizontal carousel (renamed from SKI & SUN) */}
+      <HorizontalCarousel
+        title="Women Collection"
+        products={womenProducts.slice(0, 12)}
+        direction="left"
+        speed={44}
+      />
+
+      {/* Men Collection - horizontal carousel */}
+      <HorizontalCarousel
+        title="Men Collection"
+        products={menProducts.slice(0, 12)}
+        direction="right"
+        speed={40}
+      />
 
       {/* Newsletter Section */}
       <section className="py-20 bg-white border-t border-[#efebe3]">
