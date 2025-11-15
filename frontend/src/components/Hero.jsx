@@ -43,7 +43,7 @@ function Hero (){
   };
 
   return (
-    <div className="relative h-[750px] overflow-hidden">
+    <div id="home-hero" className="relative h-[750px] overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={index}
