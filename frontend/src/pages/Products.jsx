@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [filters, setFilters] = useState({
-    category: '',
-    gender: '',
+    category: searchParams.get('category') || '',
+    gender: searchParams.get('gender') || '',
     search: '',
     ordering: '-created_at',
   });
@@ -17,6 +19,20 @@ const Products = () => {
 
   useEffect(() => {
     fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    // Update filters when URL params change
+    const categoryParam = searchParams.get('category');
+    const genderParam = searchParams.get('gender');
+    setFilters(prev => ({
+      ...prev,
+      category: categoryParam || '',
+      gender: genderParam || '',
+    }));
+  }, [searchParams]);
+
+  useEffect(() => {
     fetchProducts();
   }, [filters, page]);
 
@@ -60,8 +76,19 @@ const Products = () => {
   };
 
   const handleFilterChange = (key, value) => {
-    setFilters({ ...filters, [key]: value });
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
     setPage(1);
+    
+    // Update URL params when filters change
+    const params = new URLSearchParams();
+    if (newFilters.category) {
+      params.set('category', newFilters.category);
+    }
+    if (newFilters.gender) {
+      params.set('gender', newFilters.gender);
+    }
+    setSearchParams(params);
   };
 
   if (loading && products.length === 0) {
@@ -117,7 +144,7 @@ const Products = () => {
                   <option value="">All</option>
                   <option value="M">Men</option>
                   <option value="W">Women</option>
-                  <option value="U">Unisex</option>
+                  <option value="K">Kids</option>
                 </select>
               </div>
               <div>

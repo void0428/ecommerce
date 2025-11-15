@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { productsAPI } from '../services/api';
 import { Menu, X, Search, User, ShoppingBag, Truck, LogOut, LogIn, NotebookPen } from 'lucide-react';
 
 const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
@@ -9,6 +10,66 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const { cartCount } = useCart();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [categories, setCategories] = useState([]); // All categories for PERSONALIZATION
+  const [categoriesByGender, setCategoriesByGender] = useState({}); // Categories filtered by gender
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [genderCategoriesLoading, setGenderCategoriesLoading] = useState({});
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    setCategoriesLoading(true);
+    try {
+      const response = await productsAPI.getCategories();
+      const categoriesData = response.data?.results || response.data || [];
+      if (Array.isArray(categoriesData)) {
+        setCategories(categoriesData);
+      } else {
+        console.warn('Categories data is not an array:', categoriesData);
+        setCategories([]);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      setCategories([]);
+    } finally {
+      setCategoriesLoading(false);
+    }
+  };
+
+  const fetchCategoriesByGender = async (gender) => {
+    // If we already have categories for this gender, don't fetch again
+    if (categoriesByGender[gender]) {
+      return;
+    }
+
+    setGenderCategoriesLoading(prev => ({ ...prev, [gender]: true }));
+    try {
+      const response = await productsAPI.getCategories(gender);
+      const categoriesData = response.data?.results || response.data || [];
+      if (Array.isArray(categoriesData)) {
+        setCategoriesByGender(prev => ({
+          ...prev,
+          [gender]: categoriesData,
+        }));
+      } else {
+        setCategoriesByGender(prev => ({
+          ...prev,
+          [gender]: [],
+        }));
+      }
+    } catch (error) {
+      console.error(`Error fetching categories for gender ${gender}:`, error);
+      setCategoriesByGender(prev => ({
+        ...prev,
+        [gender]: [],
+      }));
+    } finally {
+      setGenderCategoriesLoading(prev => ({ ...prev, [gender]: false }));
+    }
+  };
 
   const handleLogout = async () => {
     const result = await logout();
@@ -17,26 +78,53 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     }
   };
 
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/products?category=${categoryId}`);
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
+  const handleViewAllClick = () => {
+    navigate('/products');
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
+  const handleGenderClick = (gender) => {
+    navigate(`/products?gender=${gender}`);
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
+  const handleViewAllGenderClick = (gender) => {
+    navigate(`/products?gender=${gender}`);
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
+  // Menu items configuration
   const menuItems = [
     {
       name: 'PERSONALIZATION',
-      items: ['T-Shirts', 'Hoodies', 'Accessories', 'All Products']
+      type: 'categories', // Shows all categories
+      items: categories,
     },
     {
       name: 'WOMEN',
-      items: ['New Arrivals', 'T-Shirts', 'Hoodies', 'Accessories', 'View All']
+      type: 'gender', // Filters by gender
+      gender: 'W',
     },
     {
       name: 'MEN',
-      items: ['New Arrivals', 'T-Shirts', 'Hoodies', 'Accessories', 'View All']
+      type: 'gender',
+      gender: 'M',
     },
     {
-      name: 'ABOUT',
-      items: ['Our Story', 'Our Commitment', 'Our Stores']
-    }
+      name: 'Kids',
+      type: 'gender',
+      gender: 'K', // Kids gender from the model
+    },
   ];
-
-  const [activeDropdown, setActiveDropdown] = useState(null);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50  shadow-sm" 
@@ -67,9 +155,11 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                 <Link to="/cart" className="text-sm uppercase tracking-wider font-sans-body">
                   <button title='Cart' className="p-2 hover:border-b rounded-md transition-colors relative">
                       <ShoppingBag size={20} />
-                      <span className="absolute top-0 right-0 ">
-                        0
-                      </span>
+                      {cartCount > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                          {cartCount}
+                        </span>
+                      )}
                   </button>
                 </Link>
 
@@ -119,22 +209,75 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
             <div
               key={item.name}
               className="relative hover:text-blue-300"
-              onMouseEnter={() => setActiveDropdown(index)}
+              onMouseEnter={() => {
+                setActiveDropdown(index);
+                // Fetch gender-specific categories when hovering
+                if (item.type === 'gender') {
+                  fetchCategoriesByGender(item.gender);
+                }
+              }}
             >
-              <button className="text-sm font-medium tracking-wider hover:text-blue-300  py-2">
+              
+              <button className="text-sm font-medium tracking-wider hover:text-blue-300 py-2">
                 {item.name}
               </button>
               {activeDropdown === index && (
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 text-white bg-black/80 shadow-lg border border-gray-100 rounded-md overflow-hidden">
-                  {item.items.map((subItem) => (
-                    <a
-                      key={subItem}
-                      href="#"
-                      className="block px-4 py-3 text-sm hover:text-blue-300"
-                    >
-                      {subItem}
-                    </a>
-                  ))}
+                  {item.type === 'categories' ? (
+                    // PERSONALIZATION - Show all categories
+                    <>
+                      {categoriesLoading ? (
+                        <div className="px-4 py-3 text-sm text-gray-400">Loading...</div>
+                      ) : categories.length > 0 ? (
+                        <>
+                          {categories.map((category) => (
+                            <button
+                              key={category.id}
+                              onClick={() => handleCategoryClick(category.id)}
+                              className="block w-full text-left px-4 py-3 text-sm hover:text-blue-300 hover:bg-black/60 transition-colors"
+                            >
+                              {category.name}
+                            </button>
+                          ))}
+                          <button
+                            onClick={handleViewAllClick}
+                            className="block w-full text-left px-4 py-3 text-sm hover:text-blue-300 hover:bg-black/60 transition-colors border-t border-gray-700"
+                          >
+                            View All Products
+                          </button>
+                        </>
+                      ) : (
+                        <div className="px-4 py-3 text-sm text-gray-400">No categories available</div>
+                      )}
+                    </>
+                  ) : item.type === 'gender' ? (
+                    // WOMEN, MEN, KIDS - Show gender-specific categories
+                    <>
+                      <button
+                        onClick={() => handleViewAllGenderClick(item.gender)}
+                        className="block w-full text-left px-4 py-3 text-sm hover:text-blue-300 hover:bg-black/60 transition-colors"
+                      >
+                        View All {item.name}
+                      </button>
+                      {genderCategoriesLoading[item.gender] ? (
+                        <div className="px-4 py-3 text-sm text-gray-400">Loading...</div>
+                      ) : categoriesByGender[item.gender] && categoriesByGender[item.gender].length > 0 ? (
+                        <>
+                          {categoriesByGender[item.gender].map((category) => (
+                            <button
+                              key={category.id}
+                              onClick={() => navigate(`/products?gender=${item.gender}&category=${category.id}`)}
+                              className="block w-full text-left px-4 py-3 text-sm hover:text-blue-300 hover:bg-black/60 transition-colors"
+                            >
+                              {category.name}
+                            </button>
+                          ))}
+                        </>
+                      ) : (
+                        <div className="px-4 py-3 text-sm text-gray-400">No categories available</div>
+                      )}
+                    </>
+                  ) : null}
                 </div>
               )}
             </div>
@@ -146,18 +289,77 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
         <div className="lg:hidden border-t border-gray-200 bg-white">
           <nav className="max-w-7xl mx-auto px-4 py-4">
             {menuItems.map((item) => (
-              <div key={item.name} className="mb-4">
-                <h3 className="text-sm font-medium tracking-wider mb-2">{item.name}</h3>
+              <div 
+                key={item.name} 
+                className="mb-4"
+                onMouseEnter={() => {
+                  // Fetch gender-specific categories when menu opens
+                  if (item.type === 'gender') {
+                    fetchCategoriesByGender(item.gender);
+                  }
+                }}
+              >
+                <h3 className="text-sm font-medium tracking-wider mb-2 text-black">{item.name}</h3>
                 <div className="pl-4 space-y-2">
-                  {item.items.map((subItem) => (
-                    <a
-                      key={subItem}
-                      href="#"
-                      className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
-                    >
-                      {subItem}
-                    </a>
-                  ))}
+                  {item.type === 'categories' ? (
+                    // PERSONALIZATION - Show all categories
+                    <>
+                      {categoriesLoading ? (
+                        <div className="text-sm text-gray-500">Loading categories...</div>
+                      ) : categories.length > 0 ? (
+                        <>
+                          {categories.map((category) => (
+                            <button
+                              key={category.id}
+                              onClick={() => handleCategoryClick(category.id)}
+                              className="block w-full text-left text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                            >
+                              {category.name}
+                            </button>
+                          ))}
+                          <button
+                            onClick={handleViewAllClick}
+                            className="block w-full text-left text-sm text-gray-600 hover:text-blue-600 transition-colors font-semibold mt-2"
+                          >
+                            View All Products
+                          </button>
+                        </>
+                      ) : (
+                        <div className="text-sm text-gray-500">No categories available</div>
+                      )}
+                    </>
+                  ) : item.type === 'gender' ? (
+                    // WOMEN, MEN, KIDS - Show gender-specific categories
+                    <>
+                      <button
+                        onClick={() => {
+                          handleViewAllGenderClick(item.gender);
+                          setIsMenuOpen(false);
+                        }}
+                        className="block w-full text-left text-sm text-gray-600 hover:text-blue-600 transition-colors font-semibold"
+                      >
+                        View All {item.name}
+                      </button>
+                      {genderCategoriesLoading[item.gender] ? (
+                        <div className="text-sm text-gray-500">Loading categories...</div>
+                      ) : categoriesByGender[item.gender] && categoriesByGender[item.gender].length > 0 ? (
+                        categoriesByGender[item.gender].map((category) => (
+                          <button
+                            key={category.id}
+                            onClick={() => {
+                              navigate(`/products?gender=${item.gender}&category=${category.id}`);
+                              setIsMenuOpen(false);
+                            }}
+                            className="block w-full text-left text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                          >
+                            {category.name}
+                          </button>
+                        ))
+                      ) : (
+                        <div className="text-sm text-gray-500">No categories available</div>
+                      )}
+                    </>
+                  ) : null}
                 </div>
               </div>
             ))}

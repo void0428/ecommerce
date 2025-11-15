@@ -14,7 +14,10 @@ const api = axios.create({
 export const productsAPI = {
   getAll: (params = {}) => api.get('/products/', { params }),
   getById: (id) => api.get(`/products/${id}/`),
-  getCategories: () => api.get('/products/categories/'),
+  getCategories: (gender = null) => {
+    const params = gender ? { gender } : {};
+    return api.get('/products/categories/', { params });
+  },
   getFeatured: () => api.get('/products/featured/'),
   getOnSale: () => api.get('/products/on_sale/'),
 };

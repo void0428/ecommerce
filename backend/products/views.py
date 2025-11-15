@@ -9,6 +9,17 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+    def get_queryset(self):
+        """Filter categories by gender if provided"""
+        queryset = Category.objects.all()
+        gender = self.request.query_params.get('gender', None)
+        
+        if gender:
+            # Return only categories that have at least one product with this gender
+            queryset = queryset.filter(products__gender=gender).distinct()
+        
+        return queryset
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
