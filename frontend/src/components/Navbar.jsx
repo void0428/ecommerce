@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -16,62 +16,37 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const [genderCategoriesLoading, setGenderCategoriesLoading] = useState({});
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [changeNavColor, setChangeNavColor] = useState(false);
-  const [isHoveringNavbar, setIsHoveringNavbar] = useState(false);
-  const [isHoveringDropdown, setIsHoveringDropdown] = useState(false);
-  const heroHalfRef = useRef(0);
-  const isHoveringNavbarRef = useRef(false);
-  const isHoveringDropdownRef = useRef(false);
   const location = useLocation();
+  const isHome = location.pathname === '/';
+  const [hoverActive, setHoverActive] = useState(false);
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const changeBackground = () => {
-    const heroHalf = heroHalfRef.current || 0;
-    const scrolledPastHeroHalf = location.pathname !== '/' || window.scrollY >= heroHalf;
-    // if hovering navbar or dropdown, force white
-    if (isHoveringNavbarRef.current || isHoveringDropdownRef.current) {
+    if (window.scrollY > 500) {
       setChangeNavColor(true);
-      return;
+    } else {
+      setChangeNavColor(false);
     }
-    setChangeNavColor(!!scrolledPastHeroHalf);
   };
 
   useEffect(() => {
-    // compute hero half and attach scroll listener
-    const computeHeroHalf = () => {
-      const hero = document.getElementById('home-hero');
-      if (!hero) {
-        heroHalfRef.current = 0;
+    const onScroll = () => {
+      // Only show transparent navbar on the home page hero section.
+      if (!isHome) {
+        setChangeNavColor(true);
         return;
       }
-      const rect = hero.getBoundingClientRect();
-      const scrollTop = window.scrollY || window.pageYOffset;
-      const heroTop = rect.top + scrollTop;
-      heroHalfRef.current = heroTop + hero.offsetHeight * 0.5;
+      setChangeNavColor(window.scrollY > 500);
     };
 
-    computeHeroHalf();
-    // set initial navbar state based on hero position
-    changeBackground();
-    const onScroll = () => changeBackground();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', computeHeroHalf);
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', computeHeroHalf);
-    };
-  }, [location.pathname]);
-
-  // keep refs in sync so scroll handler sees latest hover state
-  useEffect(() => {
-    isHoveringNavbarRef.current = isHoveringNavbar;
-    isHoveringDropdownRef.current = isHoveringDropdown;
-    // update immediately when hover state changes
-    changeBackground();
-  }, [isHoveringNavbar, isHoveringDropdown]);
+    window.addEventListener('scroll', onScroll);
+    // initialize state on mount
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isHome]);
 
   const fetchCategories = async () => {
     setCategoriesLoading(true);
@@ -177,14 +152,19 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     },
   ];
 
+  // Compute header classes: show transparent only when on home hero (isHome && !changeNavColor)
+  const headerClasses = (isHome && !changeNavColor)
+    ? (hoverActive ? 'text-[#2b3349] bg-white' : 'text-white bg-transparent')
+    : 'text-[#2b3349] bg-white';
+
   return (
     <header 
       className="fixed top-0 left-0 right-0 z-50 shadow-sm" 
-      onMouseEnter={() => setIsHoveringNavbar(true)}
-      onMouseLeave={() => { setIsHoveringNavbar(false); setActiveDropdown(null); setIsHoveringDropdown(false); }}
+      onMouseLeave={() => { setActiveDropdown(null); setHoverActive(false); }}
+      onMouseEnter={() => { if (isHome && !changeNavColor) setHoverActive(true); }}
     >
       {/* Main Navbar */}
-      <div className={`${changeNavColor ? 'text-[#2b3349] bg-white' : 'text-white bg-transparent'} hover:bg-white hover:text-[#2b3349] transition-colors duration-300`}>
+      <div className={`${headerClasses} transition-colors duration-300`}>
         <div className="flex items-center justify-between p-3">
           {/* Mobile Menu Button */}
           <div>
@@ -261,12 +241,10 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
               className="relative"
               onMouseEnter={() => {
                 setActiveDropdown(index);
-                setIsHoveringDropdown(true);
                 if (item.type === 'gender') {
                   fetchCategoriesByGender(item.gender);
                 }
               }}
-              onMouseLeave={() => setIsHoveringDropdown(false)}
             >
               <button 
                 className={`text-lg font-medium tracking-wider py-2 transition-all ${
@@ -286,8 +264,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
         className={`absolute top-full left-0 w-full bg-white border-b border-gray-200 transition-all duration-300 ease-in-out overflow-hidden z-50 ${
           activeDropdown !== null ? 'opacity-100' : 'opacity-0'
         }`}
-        onMouseEnter={() => setIsHoveringDropdown(true)}
-        onMouseLeave={() => { setIsHoveringDropdown(false); setActiveDropdown(null); }}
+        onMouseLeave={() => setActiveDropdown(null)}
         style={{ 
           height: activeDropdown !== null ? '30vh' : '0',
           boxShadow: activeDropdown !== null ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none'
