@@ -131,7 +131,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     onMouseLeave={() => setActiveDropdown(null)}
     >
 
-      <div className="text-white bg-black">
+      <div className="text-black bg-transparent">
         <div className="flex items-center justify-between p-3">
 
           <div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import Hero from '../components/Hero';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -36,9 +37,10 @@ const Home = () => {
   }
 
   return (
-    <div className="pt-32 ">
+    <div className="">
       {/* Hero Section */}
-      <section className="relative bg-[url('/hero_image.jpeg')] bg-cover bg-center py-32">
+      <Hero/>
+      {/* <section className="relative bg-[url('/hero_image.jpeg')] bg-cover bg-center py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-serif-heading text-5xl md:text-6xl text-[#1a1a2e] mb-6 tracking-wider">
             FASHION STORE
@@ -53,7 +55,8 @@ const Home = () => {
             Shop Now
           </Link>
         </div>
-      </section>
+      </section> */}
+
 
       {/* Featured Products */}
       {featuredProducts.length > 0 && (
