@@ -33,25 +33,25 @@ const ProductCard = ({ product }) => {
           )}
         </div>
         <div className="text-center">
-          <h3 className="text-sm font-sans-body text-[#2b3349] mb-1 uppercase tracking-wider">
+          <h3 className="text-base font-sans-body text-[#2b3349] mb-1 uppercase tracking-wider">
             {product.name}
           </h3>
-          <p className="text-xs text-[#2b3349]/70 mb-2 font-sans-body">
+          <p className="text-sm text-[#2b3349]/70 mb-2 font-sans-body">
             {product.category?.name}
           </p>
           <div className="flex items-center justify-center gap-2">
             {product.discount_price ? (
               <>
-                <span className="text-xs text-[#2b3349]/50 line-through font-sans-body">
-                  ${product.price}
+                <span className="text-sm text-[#2b3349]/50 line-through font-sans-body">
+                  ₹{product.price}
                 </span>
-                <span className="text-sm text-[#2b3349] font-sans-body">
-                  ${product.final_price}
+                <span className="text-base text-[#2b3349] font-sans-body">
+                  ₹{product.final_price}
                 </span>
               </>
             ) : (
-              <span className="text-sm text-[#2b3349] font-sans-body">
-                ${product.final_price}
+              <span className="text-base text-[#2b3349] font-sans-body">
+                ₹{product.final_price}
               </span>
             )}
           </div>

@@ -77,7 +77,7 @@ const Orders = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="font-serif-heading text-4xl md:text-5xl text-[#2b3349] mb-12 text-center tracking-wider">
+        <h1 className="font-serif-heading text-4xl md:text-5xl font-extrabold text-[#2b3349] mb-12 text-center tracking-wider">
           My Orders
         </h1>
         {!Array.isArray(orders) || orders.length === 0 ? (
@@ -90,10 +90,10 @@ const Orders = () => {
               <div key={order.id} className="border border-gray-200 p-6">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
                   <div>
-                    <h3 className="font-serif-heading text-2xl text-[#2b3349] mb-2 tracking-wider">
+                    <h3 className="font-serif-heading text-3xl font-extrabold text-[#2b3349] mb-2 tracking-wider">
                       Order #{order.id}
                     </h3>
-                    <p className="text-sm text-gray-600 font-sans-body">
+                    <p className="text-base text-gray-600 font-sans-body">
                       {new Date(order.created_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -120,40 +120,40 @@ const Orders = () => {
                           />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-sm text-[#2b3349] font-sans-body uppercase tracking-wider mb-1">
+                          <h4 className="text-base font-extrabold text-[#2b3349] font-sans-body uppercase tracking-wider mb-1">
                             {item.product?.name || 'Product'}
                           </h4>
                           <p className="text-xs text-gray-600 font-sans-body">
                             Size: {item.size} × {item.quantity}
                           </p>
                         </div>
-                        <span className="text-sm text-[#2b3349] font-sans-body">
-                          ${Number(item.subtotal || 0).toFixed(2)}
+                        <span className="text-base text-[#2b3349] font-sans-body">
+                          ₹{Number(item.subtotal || 0).toFixed(2)}
                         </span>
                       </div>
                     );
                   })}
                 </div>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 pt-6 border-t border-gray-200">
-                  <div className="text-lg font-sans-body">
+                  <div className="text-xl font-sans-body">
                     <strong className="text-[#2b3349]">
-                      Total: ${Number(order.total_amount || 0).toFixed(2)}
+                      Total: ₹{Number(order.total_amount || 0).toFixed(2)}
                     </strong>
                   </div>
                   {order.status === 'P' && (
                     <button
                       onClick={() => handleCancel(order.id)}
-                      className="border border-red-600 text-red-600 px-6 py-2 text-sm uppercase tracking-wider font-sans-body hover:bg-red-600 hover:text-white transition-colors"
+                      className="border border-red-600 text-red-600 px-6 py-2 text-base uppercase tracking-wider font-sans-body hover:bg-red-600 hover:text-white transition-colors"
                     >
                       Cancel Order
                     </button>
                   )}
                 </div>
                 <div className="mt-6 pt-6 border-t border-gray-200 space-y-2">
-                  <p className="text-sm text-gray-600 font-sans-body">
+                  <p className="text-base text-gray-600 font-sans-body">
                     <strong>Shipping Address:</strong> {order.shipping_address || 'N/A'}
                   </p>
-                  <p className="text-sm text-gray-600 font-sans-body">
+                  <p className="text-base text-gray-600 font-sans-body">
                     <strong>Phone:</strong> {order.phone_number || 'N/A'}
                   </p>
                 </div>

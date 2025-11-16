@@ -94,21 +94,21 @@ const ProductDetail = () => {
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <h1 className="font-serif-heading text-3xl md:text-4xl text-[#2b3349] mb-4 tracking-wider">
+            <h1 className="font-serif-heading text-2xl md:text-4xl font-extrabold text-[#2b3349] mb-4 tracking-wider">
               {product.name}
             </h1>
-            <p className="text-sm text-[#2b3349]/70 mb-6 font-sans-body uppercase tracking-wider">
+            <p className="text-base text-[#2b3349]/70 mb-6 font-sans-body uppercase tracking-wider">
               {product.category?.name}
             </p>
             
             <div className="flex items-center gap-4 mb-6">
               {product.discount_price ? (
                 <>
-                  <span className="text-lg text-[#2b3349]/400 line-through font-sans-body">
-                    ${product.price}
+                  <span className="text-xl text-[#2b3349]/400 line-through font-sans-body">
+                    ₹{product.price}
                   </span>
                   <span className="text-2xl text-[#2b3349] font-sans-body">
-                    ${product.final_price}
+                    ₹{product.final_price}
                   </span>
                   <span className="bg-[#2b3349] text-white px-3 py-1 text-xs font-semibold tracking-wider">
                     -{product.discount_percentage}%
@@ -116,7 +116,7 @@ const ProductDetail = () => {
                 </>
               ) : (
                 <span className="text-2xl text-[#2b3349] font-sans-body">
-                  ${product.final_price}
+                  ₹{product.final_price}
                 </span>
               )}
             </div>
@@ -127,7 +127,7 @@ const ProductDetail = () => {
 
             {/* Size Selection */}
             <div className="mb-6">
-              <label className="block text-sm text-[#2b3349] mb-3 font-sans-body uppercase tracking-wider">
+              <label className="block text-base text-[#2b3349] mb-3 font-sans-body uppercase tracking-wider">
                 Size
               </label>
               <div className="flex flex-wrap gap-3">
@@ -135,7 +135,7 @@ const ProductDetail = () => {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-6 py-2 border text-sm font-sans-body uppercase tracking-wider transition-colors ${
+                    className={`px-6 py-2 border text-lg font-sans-body uppercase tracking-wider transition-colors ${
                       selectedSize === size
                         ? 'border-[#2b3349] bg-[#2b3349] text-white'
                         : 'border-gray-300 text-[#2b3349] hover:border-[#2b3349]'
@@ -149,7 +149,7 @@ const ProductDetail = () => {
 
             {/* Quantity Selection */}
             <div className="mb-8">
-              <label className="block text-sm text-[#2b3349] mb-3 font-sans-body uppercase tracking-wider">
+              <label className="block text-base text-[#2b3349] mb-3 font-sans-body uppercase tracking-wider">
                 Quantity
               </label>
               <div className="flex items-center gap-4">
@@ -157,21 +157,21 @@ const ProductDetail = () => {
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#2b3349] transition-colors"
                 >
-                  <span className="text-lg">-</span>
+                  <span className="text-xl">-</span>
                 </button>
-                <span className="text-lg font-sans-body w-12 text-center">{quantity}</span>
+                <span className="text-xl font-sans-body w-12 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:border-[#2b3349] transition-colors"
                 >
-                  <span className="text-lg">+</span>
+                  <span className="text-xl">+</span>
                 </button>
               </div>
             </div>
 
             {/* Message */}
             {message && (
-              <div className={`mb-6 p-4 text-sm font-sans-body ${
+              <div className={`mb-6 p-4 text-lg font-sans-body ${
                 message.includes('Error') 
                   ? 'bg-red-50 text-red-700 border border-red-200' 
                   : 'bg-green-50 text-green-700 border border-green-200'
@@ -183,21 +183,21 @@ const ProductDetail = () => {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              className="w-full border border-[#2b3349] text-[#2b3349] px-8 py-4 text-sm uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors mb-8"
+              className="w-full border border-[#2b3349] text-[#2b3349] px-8 py-4 text-lg uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors mb-8"
             >
               Add to Cart
             </button>
 
             {/* Product Meta */}
             <div className="border-t border-gray-200 pt-6 space-y-2">
-              <p className="text-sm text-[#2b3349]/600 font-sans-body">
+              <p className="text-base font-extrabold text-[#2b3349]/600 font-sans-body">
                 <strong>Gender:</strong> {
                   product.gender === 'M' ? 'Men' : 
                   product.gender === 'W' ? 'Women' : 
                   'Unisex'
                 }
               </p>
-              <p className="text-sm text-[#2b3349]/600 font-sans-body">
+              <p className="text-base font-extrabold text-[#2b3349]/600 font-sans-body">
                 <strong>Stock:</strong> {product.stock} available
               </p>
             </div>

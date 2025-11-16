@@ -187,7 +187,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                <Link to="/cart" className="text-lg uppercase tracking-wider font-sans-body">
+                <Link to="/cart" className="text-xl uppercase tracking-wider font-sans-body">
                   <button title='Cart' className="p-2 hover:border-b rounded-md transition-colors relative">
                     <ShoppingBag size={30} />
                     {cartCount > 0 && (
@@ -198,19 +198,19 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                   </button>
                 </Link>
 
-                <Link to="/orders" className="text-lg uppercase tracking-wider font-sans-body">
+                <Link to="/orders" className="text-xl uppercase tracking-wider font-sans-body">
                   <button title='Orders' className="p-2 hover:border-b rounded-md transition-colors">
                     <Truck size={30} />
                   </button>
                 </Link>
 
-                <Link to="/" className="text-lg uppercase tracking-wider font-sans-body">
+                <Link to="/" className="text-xl uppercase tracking-wider font-sans-body">
                   <button title={user.username} className="p-2 hover:border-b rounded-md transition-colors">
                     <User size={30} />
                   </button>
                 </Link>
 
-                <button onClick={handleLogout} className="text-lg uppercase tracking-wider font-sans-body">
+                <button onClick={handleLogout} className="text-xl uppercase tracking-wider font-sans-body">
                   <button title={user.username} className="p-2 hover:border-b rounded-md transition-colors">
                     <LogOut size={30} />
                   </button>
@@ -218,12 +218,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
               </>
             ) : (
               <>
-                <Link to="/register" className="text-lg uppercase tracking-wider hover:border-b font-sans-body">
+                <Link to="/register" className="text-xl uppercase tracking-wider hover:border-b font-sans-body">
                   <button title='Sign-Up' className="p-2 rounded-md transition-colors flex flex-col items-center justify-center">
                     {/* <NotebookPen size={30} /> */}Register
                   </button>
                 </Link>
-                <Link to="/login" className="text-lg uppercase tracking-wider hover:border-b font-sans-body">
+                <Link to="/login" className="text-xl uppercase tracking-wider hover:border-b font-sans-body">
                   <button title='Login' className="p-2 rounded-md transition-colors flex flex-col items-center justify-center">
                     Login
                   </button>
@@ -247,7 +247,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
               }}
             >
               <button 
-                className={`text-lg font-medium tracking-wider py-2 transition-all ${
+                className={`text-xl font-medium tracking-wider py-2 transition-all ${
                   activeDropdown === index ? 'border-b-2 border-current' : ''
                 }`}
               >
@@ -294,7 +294,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                       ))}
                       <button
                         onClick={handleViewAllClick}
-                        className="text-left text-lg text-blue-600 hover:text-blue-800 transition-colors font-semibold"
+                        className="text-left text-xl text-blue-600 hover:text-blue-800 transition-colors font-semibold"
                       >
                         View All Products →
                       </button>
@@ -356,7 +356,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
                   }
                 }}
               >
-                <h3 className="text-lg font-medium tracking-wider mb-2 text-[#2b3349]">{item.name}</h3>
+                <h3 className="text-xl font-medium tracking-wider mb-2 text-[#2b3349]">{item.name}</h3>
                 <div className="pl-4 space-y-2">
                   {item.type === 'categories' ? (
                     <>

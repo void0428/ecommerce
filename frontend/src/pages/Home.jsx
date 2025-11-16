@@ -90,7 +90,7 @@ const Home = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+              className="flex-1 border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
             />
             <button className="text-[#2b3349] hover:text-[#2b3349]/70 transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

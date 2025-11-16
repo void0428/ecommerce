@@ -169,7 +169,7 @@ const Products = () => {
         
         {/* Show products count */}
         <div className="text-center mb-8">
-          <p className="text-sm text-gray-600 font-sans-body">
+          <p className="text-lg text-gray-600 font-sans-body">
             Showing {products.length} product{products.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -177,15 +177,15 @@ const Products = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <aside className="lg:w-64 shrink-0">
-            <h3 className="font-serif-heading text-xl text-[#2b3349] mb-6 tracking-wider">Filters</h3>
+            <h3 className="font-serif-heading text-2xl font-extrabold text-[#2b3349] mb-6 tracking-wider">Filters</h3>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm text-[#2b3349] mb-2 font-sans-body">Category</label>
+                <label className="block text-xl font-extrabold text-[#2b3349] mb-2 font-sans-body">Category</label>
                 <select
                   value={filters.category}
                   onChange={(e) => handleFilterChange('category', e.target.value)}
                   disabled={categoriesLoading}
-                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-2 py-2 text-xl font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 >
                   <option value="">All Categories</option>
                   {categoriesLoading ? (
@@ -204,11 +204,11 @@ const Products = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-[#2b3349] mb-2 font-sans-body">Gender</label>
+                <label className="block text-xl font-extrabold text-[#2b3349] mb-2 font-sans-body">Gender</label>
                 <select
                   value={filters.gender}
                   onChange={(e) => handleFilterChange('gender', e.target.value)}
-                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-2 py-2 text-xl font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 >
                   <option value="">All</option>
                   <option value="M">Men</option>
@@ -217,11 +217,11 @@ const Products = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-[#2b3349] mb-2 font-sans-body">Sort By</label>
+                <label className="block text-xl font-extrabold text-[#2b3349] mb-2 font-sans-body">Sort By</label>
                 <select
                   value={filters.ordering}
                   onChange={(e) => handleFilterChange('ordering', e.target.value)}
-                  className="w-full border-b border-gray-300 px-2 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  className="w-full border-b border-gray-300 px-2 py-2 text-xl font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 >
                   <option value="-created_at">Newest</option>
                   <option value="price">Price: Low to High</option>
@@ -240,7 +240,7 @@ const Products = () => {
                 placeholder="Search products..."
                 value={filters.search}
                 onChange={(e) => handleFilterChange('search', e.target.value)}
-                className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                className="w-full border-b border-gray-300 px-4 py-2 text-xl font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
               />
             </div>
             {loading ? (
