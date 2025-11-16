@@ -1,0 +1,24 @@
+Order Delivered - Order #{{ order.id }}
+
+Hello {{ user.first_name|default:user.username }},
+
+Your order #{{ order.id }} has been delivered!
+
+Order Details:
+- Order ID: {{ order.id }}
+- Total Amount: Rs {{ order.total_amount }}
+- Delivered To: {{ order.shipping_address }}
+
+Items in Your Order:
+{% for item in order.items.all %}
+- {{ item.quantity }}x {{ item.product.name }} (Size: {{ item.size }}) - Rs {{ item.price|floatformat:2 }} each
+{% endfor %}
+
+We hope you're delighted with your purchase! If you have any issues with your order, please let us know.
+
+Don't forget to leave a review for the products - your feedback helps us improve!
+
+Thank you for your purchase!
+
+Best regards,
+The FitZone Team

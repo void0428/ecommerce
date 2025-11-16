@@ -1,0 +1,18 @@
+Hi {{ user.first_name|default:user.username }},
+
+Thank you for your order! Here are the details for Order #{{ order.id }} placed on {{ order.created_at }}.
+
+Shipping Address:
+{{ order.shipping_address }}
+
+Items:
+{% for item in items %}
+- {{ item.product.name }} (Size: {{ item.size }}) × {{ item.quantity }} — ₹{{ item.price }}
+{% endfor %}
+
+Order Total: ₹{{ order.total_amount }}
+
+If you have any questions about your order, reply to this email.
+
+Thanks,
+The FitZone Team

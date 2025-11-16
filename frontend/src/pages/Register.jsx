@@ -30,7 +30,8 @@ const Register = () => {
 
     const result = await register(formData);
     if (result.success) {
-      navigate('/');
+      // Redirect to verify email with email passed as state
+      navigate('/verify-email', { state: { email: formData.email } });
     } else {
       setError(typeof result.error === 'string' ? result.error : 'Registration failed');
     }

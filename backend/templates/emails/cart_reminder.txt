@@ -1,0 +1,12 @@
+Hi {{ user.first_name|default:user.username }},
+
+We noticed you have several items waiting in your cart. Here are the items currently in your cart:
+
+{% for item in items %}
+- {{ item.product.name }} (Size: {{ item.size }}) × {{ item.quantity }} — ₹{{ item.product.final_price }}
+{% endfor %}
+
+Complete your purchase now: visit your cart at /cart
+
+Thanks,
+The FitZone Team

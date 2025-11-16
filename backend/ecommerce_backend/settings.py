@@ -64,7 +64,7 @@ ROOT_URLCONF = 'ecommerce_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -166,4 +166,12 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Allow media files to be accessed
 CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security, but allow media access
+
+# Email configuration
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', 'noreply@ecommerce.com')
 

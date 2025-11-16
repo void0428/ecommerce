@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from products.models import Product
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Order(models.Model):
@@ -31,6 +33,27 @@ class Order(models.Model):
         self.total_amount = total
         self.save()
         return total
+
+
+class OrderStatusUpdate(models.Model):
+    """Track when order status changes"""
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='status_updates')
+    old_status = models.CharField(max_length=2, choices=Order.STATUS_CHOICES)
+    new_status = models.CharField(max_length=2, choices=Order.STATUS_CHOICES)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        return f"Order {self.order.id}: {self.get_old_status_display()} → {self.get_new_status_display()}"
+
+    def get_old_status_display(self):
+        return dict(Order.STATUS_CHOICES).get(self.old_status, self.old_status)
+
+    def get_new_status_display(self):
+        return dict(Order.STATUS_CHOICES).get(self.new_status, self.new_status)
 
 
 class OrderItem(models.Model):

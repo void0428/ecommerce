@@ -1,0 +1,24 @@
+Order Cancelled - Order #{{ order.id }}
+
+Hello {{ user.first_name|default:user.username }},
+
+Your order #{{ order.id }} has been cancelled.
+
+Order Details:
+- Order ID: {{ order.id }}
+- Total Amount: Rs {{ order.total_amount }}
+- Status: Cancelled
+
+Items in Your Order:
+{% for item in order.items.all %}
+- {{ item.quantity }}x {{ item.product.name }} (Size: {{ item.size }}) - Rs {{ item.price|floatformat:2 }} each
+{% endfor %}
+
+{% if notes %}Note: {{ notes }}{% endif %}
+
+If this cancellation was made in error or you'd like to place a new order, please visit our website or contact our customer support team.
+
+We appreciate your business!
+
+Best regards,
+The FitZone Team

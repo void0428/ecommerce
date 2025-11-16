@@ -1,0 +1,25 @@
+Order Shipped - Order #{{ order.id }}
+
+Hello {{ user.first_name|default:user.username }},
+
+Great news! Your order #{{ order.id }} has been shipped.
+
+Order Details:
+- Order ID: {{ order.id }}
+- Total Amount: Rs {{ order.total_amount }}
+- Shipping Address: {{ order.shipping_address }}
+- Phone Number: {{ order.phone_number }}
+
+Items in Your Order:
+{% for item in order.items.all %}
+- {{ item.quantity }}x {{ item.product.name }} (Size: {{ item.size }}) - Rs {{ item.price|floatformat:2 }} each
+{% endfor %}
+
+Your package is on its way! You can expect delivery within 3-5 business days.
+
+If you have any questions, please reply to this email or contact our customer support team.
+
+Thank you for shopping with us!
+
+Best regards,
+The FitZone Team

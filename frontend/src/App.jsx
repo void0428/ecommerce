@@ -10,6 +10,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VerifyEmail from './pages/VerifyEmail';
 import Orders from './pages/Orders';
 import Footer from './components/Footer';
 
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
                 <Route path="/orders" element={<Orders />} />
               </Routes>
             </main>

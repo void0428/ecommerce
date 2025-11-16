@@ -62,7 +62,26 @@ const Checkout = () => {
     } catch (error) {
       console.error('Checkout error:', error);
       console.error('Error details:', error.response?.data);
-      setError(error.response?.data?.error || 'Checkout failed. Please try again.');
+      const errorMessage = error.response?.data?.error || 'Checkout failed. Please try again.';
+      
+      // Check if error is due to email not verified
+      if (error.response?.status === 403 && errorMessage.includes('verify')) {
+        setError(
+          <>
+            {errorMessage}
+            <div className="mt-4">
+              <button
+                onClick={() => navigate('/verify-email', { state: { email: user?.email } })}
+                className="mt-3 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-base font-sans-body"
+              >
+                Verify Email
+              </button>
+            </div>
+          </>
+        );
+      } else {
+        setError(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -124,7 +143,10 @@ const Checkout = () => {
               </div>
               {error && (
                 <div className="p-4 bg-red-50 text-red-700 border border-red-200 text-base font-sans-body">
-                  {error}
+                  <div>
+                    {typeof error === 'string' ? error : error?.props?.children?.[0] || 'An error occurred'}
+                  </div>
+                  {error?.props?.children?.[1]}
                 </div>
               )}
               <button

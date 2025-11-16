@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .models import Order, OrderItem, Cart, CartItem
 from .serializers import OrderSerializer, CartSerializer, CartItemSerializer
+from notifications.utils import send_order_receipt, send_cart_reminder
 from products.models import Product
 
 
@@ -87,6 +88,15 @@ class CartViewSet(viewsets.ModelViewSet):
             cart_item.quantity += quantity
             cart_item.save()
 
+        # If cart reaches 3 items, send a friendly reminder email (only once when hitting 3)
+        try:
+            total_items = cart.items.count()
+            if total_items == 3:
+                send_cart_reminder(cart)
+        except Exception:
+            # Log/ignore to avoid breaking API
+            pass
+
         serializer = CartSerializer(cart, context={'request': request})
         return Response(serializer.data)
 
@@ -133,6 +143,14 @@ class CartViewSet(viewsets.ModelViewSet):
     def checkout(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
         
+        # Block checkout if email not verified
+        try:
+            if not request.user.profile.email_verified:
+                return Response({'error': 'Please verify your email before placing an order'}, status=status.HTTP_403_FORBIDDEN)
+        except Exception:
+            # If profile missing or other error, be conservative and block
+            return Response({'error': 'Please verify your email before placing an order'}, status=status.HTTP_403_FORBIDDEN)
+
         if not cart.items.exists():
             return Response(
                 {'error': 'Cart is empty'},
@@ -167,6 +185,12 @@ class CartViewSet(viewsets.ModelViewSet):
 
         order.total_amount = total
         order.save()
+
+        # Send order receipt to verified email users
+        try:
+            send_order_receipt(order)
+        except Exception:
+            pass
 
         cart.items.all().delete()
 

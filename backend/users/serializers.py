@@ -1,13 +1,21 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from .models import UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email_verified = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'date_joined']
-        read_only_fields = ['id', 'date_joined']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'date_joined', 'email_verified']
+        read_only_fields = ['id', 'date_joined', 'email_verified']
+
+    def get_email_verified(self, obj):
+        """Fetch email_verified status from related UserProfile"""
+        profile = UserProfile.objects.filter(user=obj).first()
+        return profile.email_verified if profile else False
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
