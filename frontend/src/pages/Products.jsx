@@ -15,7 +15,6 @@ const Products = () => {
     search: '',
     ordering: '-created_at',
   });
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     fetchCategories();
@@ -34,7 +33,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [filters, page]);
+  }, [filters]);
 
   const fetchCategories = async () => {
     setCategoriesLoading(true);
@@ -58,18 +57,81 @@ const Products = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const params = {
-        page,
-        ...filters,
-      };
-      if (!params.category) delete params.category;
-      if (!params.gender) delete params.gender;
-      if (!params.search) delete params.search;
+      let allProducts = [];
+      let currentPage = 1;
+      let hasMore = true;
 
-      const response = await productsAPI.getAll(params);
-      setProducts(response.data.results || response.data);
+      console.log('Starting to fetch products with filters:', filters);
+
+      // Fetch all pages of results
+      while (hasMore) {
+        const params = {
+          page: currentPage,
+          ...filters,
+        };
+        
+        // Remove empty filter values
+        if (!params.category) delete params.category;
+        if (!params.gender) delete params.gender;
+        if (!params.search) delete params.search;
+
+        console.log(`Fetching page ${currentPage} with params:`, params);
+
+        const response = await productsAPI.getAll(params);
+        
+        console.log(`Page ${currentPage} response:`, response.data);
+
+        // Handle different response structures
+        let pageResults = [];
+        let totalCount = 0;
+        let nextPage = null;
+        
+        if (response.data.results) {
+          // Paginated response with results array
+          pageResults = response.data.results;
+          totalCount = response.data.count || 0;
+          nextPage = response.data.next;
+          console.log(`Page ${currentPage}: Got ${pageResults.length} products, total count: ${totalCount}, next: ${nextPage}`);
+        } else if (Array.isArray(response.data)) {
+          // Direct array response
+          pageResults = response.data;
+          console.log(`Page ${currentPage}: Got ${pageResults.length} products (direct array)`);
+        }
+
+        if (Array.isArray(pageResults) && pageResults.length > 0) {
+          allProducts = [...allProducts, ...pageResults];
+          
+          // CORRECT LOGIC: Check if there's a next page using the 'next' field
+          // The API returns next: "url" if there are more pages, or next: null if this is the last page
+          if (nextPage === null) {
+            hasMore = false;
+            console.log('Stopping pagination: No next page (next is null)');
+          }
+          
+          // Alternative check: if we've fetched all products according to count
+          if (totalCount > 0 && allProducts.length >= totalCount) {
+            hasMore = false;
+            console.log(`Stopping pagination: Fetched ${allProducts.length} >= ${totalCount} total`);
+          }
+          
+          // Safety check: prevent infinite loops (max 50 pages)
+          if (currentPage >= 50) {
+            hasMore = false;
+            console.log('Stopping pagination: Reached max page limit (50)');
+          }
+        } else {
+          hasMore = false;
+          console.log('Stopping pagination: No results in response');
+        }
+
+        currentPage++;
+      }
+
+      console.log(`Total products fetched: ${allProducts.length}`);
+      setProducts(allProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -78,7 +140,6 @@ const Products = () => {
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
-    setPage(1);
     
     // Update URL params when filters change
     const params = new URLSearchParams();
@@ -94,20 +155,28 @@ const Products = () => {
   if (loading && products.length === 0) {
     return (
       <div className="pt-32 pb-20 text-center">
-        <p className="text-gray-600 font-sans-body">Loading...</p>
+        <p className="text-gray-600 font-sans-body">Loading products...</p>
       </div>
     );
   }
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="font-serif-heading text-4xl md:text-5xl text-[#2b3349] mb-12 text-center tracking-wider">
           All Products
         </h1>
+        
+        {/* Show products count */}
+        <div className="text-center mb-8">
+          <p className="text-sm text-gray-600 font-sans-body">
+            Showing {products.length} product{products.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
-          <aside className="lg:w-64 flex-shrink-0">
+          <aside className="lg:w-64 shrink-0">
             <h3 className="font-serif-heading text-xl text-[#2b3349] mb-6 tracking-wider">Filters</h3>
             <div className="space-y-6">
               <div>
@@ -174,14 +243,20 @@ const Products = () => {
                 className="w-full border-b border-gray-300 px-4 py-2 text-sm font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
               />
             </div>
-            {products.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-20">
+                <p className="text-[#2b3349]/70 font-sans-body">Loading products...</p>
+              </div>
+            ) : products.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-[#2b3349]/70 font-sans-body">No products found</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
+              <div className="w-full flex flex-wrap gap-5 justify-center">
                 {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <div key={product.id} style={{ width: '360px' }} className="shrink-0">
+                    <ProductCard product={product} />
+                  </div>
                 ))}
               </div>
             )}

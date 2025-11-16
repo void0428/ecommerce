@@ -11,6 +11,7 @@ import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Orders from './pages/Orders';
+import Footer from './components/Footer';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/orders" element={<Orders />} />
               </Routes>
             </main>
+            <Footer/>
           </div>
         </Router>
       </CartProvider>

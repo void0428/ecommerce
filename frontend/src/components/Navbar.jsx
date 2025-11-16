@@ -146,7 +146,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
       gender: 'M',
     },
     {
-      name: 'Unisex',
+      name: 'UNISEX',
       type: 'gender',
       gender: 'U',
     },

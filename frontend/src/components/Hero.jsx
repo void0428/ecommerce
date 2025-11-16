@@ -83,7 +83,7 @@ function Hero (){
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-transparent p-3 rounded-full transition-all z-20"
         style={{ pointerEvents: 'auto' }}
       >
-        <ChevronLeft size={28} color="white" />
+        <ChevronLeft size={50} color="white" />
       </button>
       <button
         onClick={nextSlide}
@@ -91,7 +91,7 @@ function Hero (){
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-transparent p-3 rounded-full transition-all z-20"
         style={{ pointerEvents: 'auto' }}
       >
-        <ChevronRight size={28} color="white" />
+        <ChevronRight size={50} color="white" />
       </button>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">

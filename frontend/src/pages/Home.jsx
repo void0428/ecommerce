@@ -4,7 +4,6 @@ import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import Hero from '../components/Hero';
-import Footer from '../components/Footer';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -51,24 +50,7 @@ const Home = () => {
 
   return (
     <div className="">
-      {/* Hero Section */}
       <Hero/>
-      {/* <section className="relative bg-[url('/hero_image.jpeg')] bg-cover bg-center py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-serif-heading text-5xl md:text-6xl text-[#1a1a2e] mb-6 tracking-wider">
-            FASHION STORE
-          </h1>
-          <p className="text-lg text-gray-600 mb-8 font-sans-body max-w-2xl mx-auto">
-            Discover the latest trends in fashion
-          </p>
-          <Link 
-            to="/products" 
-            className="inline-block border border-[#1a1a2e] text-[#1a1a2e] px-8 py-3 text-sm uppercase tracking-wider font-sans-body hover:bg-[#1a1a2e] hover:text-white transition-colors"
-          >
-            Shop Now
-          </Link>
-        </div>
-      </section> */}
 
 
       {/* Featured Products - full width horizontal carousel */}
@@ -118,9 +100,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      
-      <Footer/>
     </div>
   );
 };
