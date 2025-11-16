@@ -54,9 +54,9 @@ const HorizontalCarousel = ({ title, products = [], direction = 'right', speed =
 
   return (
     <div className="w-full overflow-hidden py-8">
-      <div className="max-w-7xl mx-auto px-0">
+      <div className="w-full mx-auto px-0">
         <h2 
-          className="font-serif-heading text-2xl text-[#2b3349] mb-4 tracking-wider text-left pl-4"
+          className="font-serif-heading text-4xl text-[#2b3349] mb-4 tracking-wider text-start pl-4"
           style={{ wordWrap: 'break-word', overflowWrap: 'break-word', maxWidth: '100%' }}
         >
           {title}

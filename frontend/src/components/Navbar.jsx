@@ -159,7 +159,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
   return (
     <header 
-      className="fixed top-0 left-0 right-0 z-50 shadow-sm" 
+      className="fixed top-0 left-0 right-0 z-50 " 
       onMouseLeave={() => { setActiveDropdown(null); setHoverActive(false); }}
       onMouseEnter={() => { if (isHome && !changeNavColor) setHoverActive(true); }}
     >
@@ -189,7 +189,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
               <>
                 <Link to="/cart" className="text-lg uppercase tracking-wider font-sans-body">
                   <button title='Cart' className="p-2 hover:border-b rounded-md transition-colors relative">
-                    <ShoppingBag size={20} />
+                    <ShoppingBag size={30} />
                     {cartCount > 0 && (
                       <span className="absolute -top-1 -right-1 text-[#2b3349] text-xs rounded-full w-5 h-5 flex items-center justify-center">
                         {cartCount}
@@ -200,19 +200,19 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
                 <Link to="/orders" className="text-lg uppercase tracking-wider font-sans-body">
                   <button title='Orders' className="p-2 hover:border-b rounded-md transition-colors">
-                    <Truck size={20} />
+                    <Truck size={30} />
                   </button>
                 </Link>
 
                 <Link to="/" className="text-lg uppercase tracking-wider font-sans-body">
                   <button title={user.username} className="p-2 hover:border-b rounded-md transition-colors">
-                    <User size={20} />
+                    <User size={30} />
                   </button>
                 </Link>
 
                 <button onClick={handleLogout} className="text-lg uppercase tracking-wider font-sans-body">
                   <button title={user.username} className="p-2 hover:border-b rounded-md transition-colors">
-                    <LogOut size={20} />
+                    <LogOut size={30} />
                   </button>
                 </button>
               </>
@@ -220,12 +220,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
               <>
                 <Link to="/register" className="text-lg uppercase tracking-wider hover:border-b font-sans-body">
                   <button title='Sign-Up' className="p-2 rounded-md transition-colors flex flex-col items-center justify-center">
-                    <NotebookPen size={20} />
+                    {/* <NotebookPen size={30} /> */}Register
                   </button>
                 </Link>
                 <Link to="/login" className="text-lg uppercase tracking-wider hover:border-b font-sans-body">
                   <button title='Login' className="p-2 rounded-md transition-colors flex flex-col items-center justify-center">
-                    <LogIn size={20} />
+                    Login
                   </button>
                 </Link>
               </>
@@ -234,7 +234,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex justify-center items-center space-x-5 pb-4">
+        <nav className="hidden lg:flex justify-center items-center space-x-15 pb-4">
           {menuItems.map((item, index) => (
             <div
               key={item.name}

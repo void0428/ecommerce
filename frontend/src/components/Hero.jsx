@@ -11,19 +11,20 @@ function Hero (){
       title: 'NEW COLLECTION',
       subtitle: 'Spring/Summer 2024',
       cta: 'Shop Now',
-      bgColor: 'bg-blue-300'
+      // high-quality background image (unsplash query)
+      image: 'https://images.unsplash.com/photo-1537274942065-eda9d00a6293?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     },
     {
       title: 'PERSONALIZATION',
       subtitle: 'Create Your Unique Piece',
       cta: 'Shop Now',
-      bgColor: 'bg-pink-300'
+      image: 'https://images.unsplash.com/photo-1724184888115-e76e42f53dcc?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     },
     {
       title: 'HANDCRAFTED IN FRANCE',
       subtitle: 'Quality and Craftsmanship',
       cta: 'Shop Now',
-      bgColor: 'bg-gray-300'
+      image: 'https://images.unsplash.com/photo-1665815844395-06f64f44b5e3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     }
   ];
 
@@ -49,9 +50,16 @@ function Hero (){
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentSlide ? 'opacity-100' : 'opacity-0'
-          } ${slide.bgColor}`}
+          }`}
+          style={{
+            backgroundImage: `url(${slide.image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
         >
-          <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-center">
+          {/* overlay for text readability */}
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center justify-center">
             <div className="text-center">
               <h2 className="text-6xl md:text-7xl font-serif mb-4 tracking-wider">
                 {slide.title}
@@ -71,15 +79,19 @@ function Hero (){
 
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all"
+        aria-label="Previous slide"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-transparent p-3 rounded-full transition-all z-20"
+        style={{ pointerEvents: 'auto' }}
       >
-        <ChevronLeft size={24} />
+        <ChevronLeft size={28} color="white" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all"
+        aria-label="Next slide"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-transparent p-3 rounded-full transition-all z-20"
+        style={{ pointerEvents: 'auto' }}
       >
-        <ChevronRight size={24} />
+        <ChevronRight size={28} color="white" />
       </button>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">
