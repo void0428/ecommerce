@@ -176,9 +176,10 @@ const Products = () => {
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
-          <aside className="lg:w-64 shrink-0">
-            <h3 className="font-serif-heading text-2xl font-extrabold text-[#2b3349] mb-6 tracking-wider">Filters</h3>
-            <div className="space-y-6">
+          <aside className="lg:w-64 shrink-0 lg:sticky lg:top-32 lg:self-start lg:max-h-[70vh] lg:overflow-auto">
+            <div className="lg:pr-4">
+              <h3 className="font-serif-heading text-2xl font-extrabold text-[#2b3349] mb-6 tracking-wider">Filters</h3>
+              <div className="space-y-6">
               <div>
                 <label className="block text-xl font-extrabold text-[#2b3349] mb-2 font-sans-body">Category</label>
                 <select
@@ -228,6 +229,7 @@ const Products = () => {
                   <option value="-price">Price: High to Low</option>
                   <option value="name">Name: A to Z</option>
                 </select>
+              </div>
               </div>
             </div>
           </aside>

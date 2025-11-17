@@ -271,7 +271,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
         }}
       >
         {activeDropdown !== null && menuItems[activeDropdown] && (
-          <div className="max-w-7xl mx-auto px-8 py-12 h-full overflow-y-auto">
+          <div className="max-w-7xl mx-auto px-8 py-12 h-full overflow-y-hidden">
             <div className="grid grid-cols-4 gap-8">
               {menuItems[activeDropdown].type === 'categories' ? (
                 // PERSONALIZATION - Show all categories

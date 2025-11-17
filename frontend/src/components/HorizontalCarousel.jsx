@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import ProductCard from './ProductCard';
 
-const HorizontalCarousel = ({ title, products = [], direction = 'right', speed = 100 }) => {
+const HorizontalCarousel = ({ title, products = [], direction = 'right', speed = 4 }) => {
   const containerRef = useRef(null);
   const animRef = useRef(null);
   const pauseTimeout = useRef(null);

@@ -32,8 +32,8 @@ const ProductCard = ({ product }) => {
             </div>
           )}
         </div>
-        <div className="text-center">
-          <h3 className="text-base font-sans-body text-[#2b3349] mb-1 uppercase tracking-wider">
+        <div className="text-center px-2">
+          <h3 className="text-base font-sans-body text-[#2b3349] mb-1 uppercase tracking-wider line-clamp-2" style={{ wordBreak: 'break-word', overflowWrap: 'break-word', maxWidth: '320px', margin: '0 auto' }}>
             {product.name}
           </h3>
           <p className="text-sm text-[#2b3349]/70 mb-2 font-sans-body">
