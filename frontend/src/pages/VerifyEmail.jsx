@@ -99,43 +99,46 @@ export default function VerifyEmail() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4 py-12">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-extrabold text-gray-900 mb-2">Verify Your Email</h1>
-        <p className="text-sm text-gray-600 mb-6">
+    <div className="pt-32 pb-20 min-h-screen bg-white flex items-center justify-center">
+      <div className="max-w-lg w-full px-4">
+        <h1 className="font-serif-heading text-4xl font-extrabold text-[#2b3349] mb-4 text-center tracking-wider">
+          Verify Your Email
+        </h1>
+        <p className="text-center text-sm text-gray-600 mb-8">
           We've sent a verification code to your email. Enter it below to confirm your account.
         </p>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+          <div className="p-4 bg-red-50 text-red-700 border border-red-200 text-base font-sans-body mb-4">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded text-sm">
+          <div className="p-4 bg-green-50 text-green-700 border border-green-200 text-base font-sans-body mb-4">
             {success}
           </div>
         )}
 
-        <form onSubmit={handleVerify} className="space-y-4">
+        <form onSubmit={handleVerify} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-extrabold text-gray-700 mb-1">
-              Email Address
+            <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+              Email
             </label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
               placeholder="your@email.com"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+              className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
               disabled={loading}
             />
           </div>
 
           <div>
-            <label htmlFor="otp" className="block text-sm font-extrabold text-gray-700 mb-1">
+            <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
               Verification Code
             </label>
             <input
@@ -143,28 +146,29 @@ export default function VerifyEmail() {
               type="text"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
+              required
               placeholder="123456"
               maxLength="10"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+              className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
               disabled={loading}
             />
           </div>
 
           <button
             type="submit"
+            className="w-full border border-[#2b3349] text-[#2b3349] px-8 py-4 text-base uppercase tracking-wider font-sans-body hover:bg-[#2b3349] hover:text-white transition-colors"
             disabled={loading}
-            className="w-full bg-blue-600 text-white font-extrabold py-2 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 text-base"
           >
             {loading ? 'Verifying...' : 'Verify Email'}
           </button>
         </form>
 
         <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-sm text-gray-600 mb-3">Didn't receive the code?</p>
+          <p className="text-center mt-2 text-base text-gray-600 font-sans-body mb-3">Didn't receive the code?</p>
           <button
             onClick={handleResend}
             disabled={resendDisabled || resendLoading}
-            className="w-full bg-gray-200 text-gray-800 font-extrabold py-2 px-4 rounded-lg hover:bg-gray-300 transition disabled:bg-gray-100 disabled:text-gray-400 text-base"
+            className="w-full border border-gray-300 text-gray-800 px-8 py-3 text-base uppercase tracking-wider font-sans-body hover:bg-gray-100 transition-colors disabled:opacity-60"
           >
             {resendLoading ? 'Sending...' : resendDisabled ? `Resend in ${resendTimer}s` : 'Resend Code'}
           </button>

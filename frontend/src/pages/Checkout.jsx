@@ -10,7 +10,13 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState(null);
   const [formData, setFormData] = useState({
-    shipping_address: '',
+    first_name: '',
+    last_name: '',
+    street_address: '',
+    city: '',
+    state: '',
+    postal_code: '',
+    country: 'India',
     phone_number: '',
   });
   const [loading, setLoading] = useState(false);
@@ -56,7 +62,13 @@ const Checkout = () => {
     setLoading(true);
 
     try {
-      const response = await cartAPI.checkout(formData);
+      const checkoutData = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        shipping_address: `${formData.street_address}, ${formData.city}, ${formData.state} ${formData.postal_code}, ${formData.country}`,
+        phone_number: formData.phone_number,
+      };
+      const response = await cartAPI.checkout(checkoutData);
       updateCartCount();
       navigate(`/orders`);
     } catch (error) {
@@ -113,20 +125,115 @@ const Checkout = () => {
               <h2 className="font-serif-heading text-3xl font-bold text-[#2b3349] mb-6 tracking-wider">
                 Shipping Information
               </h2>
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+                    First Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    required
+                    placeholder="First name"
+                    className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+                    Last Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    required
+                    placeholder="Last name"
+                    className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
-                  Shipping Address *
+                  Street Address *
                 </label>
-                <textarea
-                  name="shipping_address"
-                  value={formData.shipping_address}
+                <input
+                  type="text"
+                  name="street_address"
+                  value={formData.street_address}
                   onChange={handleChange}
                   required
-                  rows="4"
-                  placeholder="Enter your complete shipping address"
-                  className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent resize-none"
+                  placeholder="House number and street name"
+                  className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
                 />
               </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+                    City *
+                  </label>
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    placeholder="City"
+                    className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+                    State *
+                  </label>
+                  <input
+                    type="text"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    required
+                    placeholder="State"
+                    className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+                    Postal Code *
+                  </label>
+                  <input
+                    type="text"
+                    name="postal_code"
+                    value={formData.postal_code}
+                    onChange={handleChange}
+                    required
+                    placeholder="Postal code"
+                    className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
+                    Country *
+                  </label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    required
+                    placeholder="Country"
+                    className="w-full border-b border-gray-300 px-4 py-2 text-base font-sans-body focus:border-[#2b3349] outline-none bg-transparent"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label className="block text-base font-extrabold text-gray-700 mb-2 font-sans-body uppercase tracking-wider">
                   Phone Number *

@@ -12,19 +12,19 @@ function Hero (){
       subtitle: 'Spring/Summer 2024',
       cta: 'Shop Now',
       // high-quality background image (unsplash query)
-      image: 'https://images.unsplash.com/photo-1537274942065-eda9d00a6293?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      image: '/h1.avif'
     },
     {
       title: 'PERSONALIZATION',
       subtitle: 'Create Your Unique Piece',
       cta: 'Shop Now',
-      image: 'https://images.unsplash.com/photo-1724184888115-e76e42f53dcc?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      image: '/image.png'
     },
     {
       title: 'HANDCRAFTED IN FRANCE',
       subtitle: 'Quality and Craftsmanship',
       cta: 'Shop Now',
-      image: 'https://images.unsplash.com/photo-1665815844395-06f64f44b5e3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      image: '/h3.avif'
     }
   ];
 
