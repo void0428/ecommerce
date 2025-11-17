@@ -1,0 +1,17 @@
+name,slug,description,category,price,discount_price,stock,available_sizes,is_featured
+T-Shirt Basic Black,tshirt-basic-black,Classic black men's t-shirt,T-shirts,499.00,399.00,50,S,M,L,XL,True
+T-Shirt V-Neck Blue,tshirt-vneck-blue,Men's blue v-neck tee,T-shirts,549.00,,40,S,M,L,XL,False
+Sailor Stripe Navy,sailor-stripe-navy,Men's sailor-style striped shirt,Sailor shirts,899.00,799.00,30,M,L,XL,False
+Sailor Cotton White,sailor-cotton-white,Sailor shirt in cotton blend,Sailor shirts,799.00,,25,M,L,False
+Classic Oxford Shirt,oxford-shirt-classic,Men's shirts & tops classic Oxford,Shirts & Tops,1299.00,1099.00,20,M,L,XL,True
+Casual Linen Top,casual-linen-top,Lightweight men's linen top,Shirts & Tops,1199.00,,15,M,L,False
+Men's Chino Pants,chino-pants,Comfort chino pants for men,Pants,1499.00,1299.00,60,32,34,36,False
+Slim Fit Jeans,slim-fit-jeans,Men's slim fit denim jeans,Pants,1999.00,1799.00,40,30,32,34,False
+Men's Hoodie Classic,hoodie-classic,Classic pullover hoodie,Sweatshirts & Hoodies,1799.00,1499.00,35,S,M,L,XL,True
+Zip Hoodie Grey,zip-hoodie-grey,Full zip men's hoodie,Sweatshirts & Hoodies,1899.00,,28,M,L,XL,False
+Leather Bomber,bomber-leather,Men's leather bomber jacket,Jackets,6999.00,6499.00,10,M,L,XL,True
+Windbreaker Light,windbreaker-light,Lightweight windbreaker jacket,Jackets,2499.00,2199.00,22,M,L,False
+Wool Knit Sweater,wool-knit-sweater,Men's knitwear pullover,Knitwear,2299.00,1999.00,25,M,L,XL,False
+Knitted Cardigan,knitted-cardigan,Button-up knit cardigan,Knitwear,2399.00,,18,M,L,False
+Leather Belt Classic,leather-belt-classic,Men's leather belt,Accessories,499.00,,100,One Size,False
+Canvas Cap,canvas-cap,Men's casual cap,Accessories,299.00,,80,One Size,False

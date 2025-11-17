@@ -1,9 +1,20 @@
 from django.contrib import admin
 from .models import Category, Product
 
+# django-import-export
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+
+class CategoryResource(resources.ModelResource):
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'slug', 'description', 'created_at')
+
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = CategoryResource
     list_display = ['name', 'slug', 'created_at']
     prepopulated_fields = {'slug': ('name',)}
 
