@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .models import Order, OrderItem, Cart, CartItem
+from users.models import ensure_user_profile
 from .serializers import OrderSerializer, CartSerializer, CartItemSerializer
 from notifications.utils import send_order_receipt, send_cart_reminder
 from products.models import Product
@@ -144,11 +145,8 @@ class CartViewSet(viewsets.ModelViewSet):
         cart, created = Cart.objects.get_or_create(user=request.user)
         
         # Block checkout if email not verified
-        try:
-            if not request.user.profile.email_verified:
-                return Response({'error': 'Please verify your email before placing an order'}, status=status.HTTP_403_FORBIDDEN)
-        except Exception:
-            # If profile missing or other error, be conservative and block
+        profile = ensure_user_profile(request.user)
+        if not profile or not profile.email_verified:
             return Response({'error': 'Please verify your email before placing an order'}, status=status.HTTP_403_FORBIDDEN)
 
         if not cart.items.exists():

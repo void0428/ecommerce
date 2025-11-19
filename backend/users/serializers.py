@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .models import UserProfile
+from .models import UserProfile, ensure_user_profile
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_email_verified(self, obj):
         """Fetch email_verified status from related UserProfile"""
-        profile = UserProfile.objects.filter(user=obj).first()
+        profile = ensure_user_profile(obj)
         return profile.email_verified if profile else False
 
 

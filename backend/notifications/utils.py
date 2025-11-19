@@ -3,6 +3,7 @@ import logging
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from users.models import ensure_user_profile
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +49,7 @@ def send_order_receipt(order):
     if not user:
         return
 
-    profile = getattr(user, 'profile', None)
+    profile = ensure_user_profile(user)
     if not profile or not profile.email_verified:
         logger.info('Not sending order receipt: user %s email not verified', user)
         return
@@ -68,7 +69,7 @@ def send_order_status_notification(order, new_status, notes=None):
     if not user:
         return
 
-    profile = getattr(user, 'profile', None)
+    profile = ensure_user_profile(user)
     if not profile or not profile.email_verified:
         logger.info('Not sending order status notification: user %s email not verified', user)
         return
@@ -105,7 +106,7 @@ def send_cart_reminder(cart):
     if not user:
         return
 
-    profile = getattr(user, 'profile', None)
+    profile = ensure_user_profile(user)
     if not profile or not profile.email_verified:
         logger.info('Not sending cart reminder: user %s email not verified', user)
         return

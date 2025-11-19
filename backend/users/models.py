@@ -14,6 +14,17 @@ class UserProfile(models.Model):
         return f"Profile for {self.user.username}"
 
 
+def ensure_user_profile(user):
+    """
+    Convenience helper to guarantee a profile exists for the given user.
+    Returns the profile instance or None if user is invalid.
+    """
+    if not user or not isinstance(user, User):
+        return None
+    profile, _ = UserProfile.objects.get_or_create(user=user)
+    return profile
+
+
 class EmailOTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField()
