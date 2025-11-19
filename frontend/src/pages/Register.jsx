@@ -2,6 +2,39 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+const formatErrorMessage = (errorData) => {
+  if (!errorData) {
+    return 'Registration failed. Please try again.';
+  }
+
+  if (typeof errorData === 'string') {
+    return errorData;
+  }
+
+  if (Array.isArray(errorData)) {
+    return errorData.map(formatErrorMessage).join(' ');
+  }
+
+  if (typeof errorData === 'object') {
+    const messages = Object.entries(errorData).map(([field, value]) => {
+      const label = field === 'non_field_errors' ? '' : `${field.replace(/_/g, ' ')}: `;
+      if (Array.isArray(value)) {
+        return `${label}${value.join(' ')}`;
+      }
+      if (typeof value === 'string') {
+        return `${label}${value}`;
+      }
+      return '';
+    }).filter(Boolean);
+
+    if (messages.length) {
+      return messages.join(' ');
+    }
+  }
+
+  return 'Registration failed. Please try again.';
+};
+
 const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -33,7 +66,7 @@ const Register = () => {
       // Redirect to verify email with email passed as state
       navigate('/verify-email', { state: { email: formData.email } });
     } else {
-      setError(typeof result.error === 'string' ? result.error : 'Registration failed');
+      setError(formatErrorMessage(result.error));
     }
   };
 
