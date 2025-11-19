@@ -37,7 +37,7 @@ class ProductSerializer(serializers.ModelSerializer):
                 representation['image'] = request.build_absolute_uri(instance.image.url)
             else:
                 # Fallback if no request context
-                representation['image'] = f"{settings.MEDIA_URL}{instance.image.name}"
+                representation['image'] = instance.image.url
         return representation
 
     def validate_category_id(self, value):
@@ -121,6 +121,6 @@ class ProductListSerializer(serializers.ModelSerializer):
                 representation['image'] = request.build_absolute_uri(instance.image.url)
             else:
                 # Fallback if no request context
-                representation['image'] = f"{settings.MEDIA_URL}{instance.image.name}"
+                representation['image'] = instance.image.url
         return representation
 

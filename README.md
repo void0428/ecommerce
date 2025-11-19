@@ -82,18 +82,30 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Run migrations:
+4. Configure environment variables. Create a `.env` file in `backend/` (or update your environment) with at least:
+```
+POSTGRES_DB=<your_db>
+POSTGRES_USER=<your_user>
+POSTGRES_PASSWORD=<your_password>
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+CLOUDINARY_CLOUD_NAME=<cloudinary_name>
+CLOUDINARY_API_KEY=<api_key>
+CLOUDINARY_API_SECRET=<api_secret>
+```
+
+5. Run migrations:
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-5. Create a superuser (optional, for admin access):
+6. Create a superuser (optional, for admin access):
 ```bash
 python manage.py createsuperuser
 ```
 
-6. Run the development server:
+7. Run the development server:
 ```bash
 python manage.py runserver
 ```
@@ -170,10 +182,10 @@ You can add sample data through the Django admin panel or by creating a manageme
 
 ## Development Notes
 
-- The backend uses SQLite by default. For production, consider using PostgreSQL.
+- The backend uses PostgreSQL via environment variables. Update `.env` for your setup.
 - CORS is configured to allow requests from `http://localhost:3000`
-- Images are stored in `backend/media/products/`
-- Make sure to create the `media` directory if it doesn't exist
+- Product images are stored on Cloudinary via `django-cloudinary-storage`; set `CLOUDINARY_*` variables before uploading products.
+- Local media directory is still available for development fallbacks, but uploaded files default to Cloudinary once credentials are provided.
 
 ## Production Deployment
 
