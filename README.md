@@ -1,4 +1,4 @@
-# Fashion Store - Full Stack E-commerce Application
+# FitZone - Full Stack E-commerce Application
 
 A modern, full-stack e-commerce website for clothing built with React (JSX) and Django.
 
